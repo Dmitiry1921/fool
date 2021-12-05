@@ -1,0 +1,28 @@
+{
+  "name": "fool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha --use_strict  \"./tests/**/test_*.js\" --exit -t 16000 --reporter progress --bail"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dmitiry1921/fool.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dmitiry1921/fool/issues"
+  },
+  "homepage": "https://github.com/Dmitiry1921/fool#readme",
+  "devDependencies": {
+    "mocha": "9.1.3",
+    "nyc": "15.1.0",
+    "sinon": "12.0.1"
+  }
+}
