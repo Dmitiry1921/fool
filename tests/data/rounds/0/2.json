@@ -1,0 +1,168 @@
+{
+  "before": {
+    "players": [
+      {
+        "state": "protection",
+        "id": "6ltddedi5z",
+        "name": "Player1",
+        "hand": [
+          "D:K",
+          "S:9",
+          "C:10",
+          "C:J",
+          "S:8",
+          "D:9"
+        ]
+      },
+      {
+        "state": "wait",
+        "id": "jfg8vih577",
+        "name": "Player2",
+        "hand": [
+          "D:8",
+          "H:A",
+          "H:10",
+          "S:K",
+          "C:8",
+          "D:A",
+          "H:7",
+          "S:7"
+        ]
+      },
+      {
+        "state": "attack",
+        "id": "fznemhwlii",
+        "name": "Player3",
+        "hand": [
+          "C:Q",
+          "H:Q",
+          "H:8",
+          "H:K",
+          "D:7",
+          "S:A"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "fznemhwlii",
+    "_currentPlayerId": "fznemhwlii",
+    "_attackPlayerId": "fznemhwlii",
+    "_protectionPlayerId": "6ltddedi5z",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "deck": {
+      "cards": [
+        "S:J",
+        "C:7",
+        "C:9",
+        "C:6",
+        "H:9",
+        "C:K",
+        "H:J",
+        "C:A",
+        "S:10",
+        "D:Q",
+        "D:J",
+        "D:10",
+        "S:6",
+        "S:Q",
+        "D:6",
+        "H:6"
+      ],
+      "size": 36,
+      "trump": "S"
+    },
+    "field": {
+      "attack": [],
+      "protection": [],
+      "discharge": []
+    },
+    "round": 1
+  },
+  "command": "attack",
+  "args": [
+    [
+      "C:Q",
+      "H:Q"
+    ]
+  ],
+  "after": {
+    "players": [
+      {
+        "state": "protection",
+        "id": "6ltddedi5z",
+        "name": "Player1",
+        "hand": [
+          "D:K",
+          "S:9",
+          "C:10",
+          "C:J",
+          "S:8",
+          "D:9"
+        ]
+      },
+      {
+        "state": "wait",
+        "id": "jfg8vih577",
+        "name": "Player2",
+        "hand": [
+          "D:8",
+          "H:A",
+          "H:10",
+          "S:K",
+          "C:8",
+          "D:A",
+          "H:7",
+          "S:7"
+        ]
+      },
+      {
+        "state": "throw",
+        "id": "fznemhwlii",
+        "name": "Player3",
+        "hand": [
+          "H:8",
+          "H:K",
+          "D:7",
+          "S:A"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "fznemhwlii",
+    "_currentPlayerId": "6ltddedi5z",
+    "_attackPlayerId": "fznemhwlii",
+    "_protectionPlayerId": "6ltddedi5z",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "deck": {
+      "cards": [
+        "S:J",
+        "C:7",
+        "C:9",
+        "C:6",
+        "H:9",
+        "C:K",
+        "H:J",
+        "C:A",
+        "S:10",
+        "D:Q",
+        "D:J",
+        "D:10",
+        "S:6",
+        "S:Q",
+        "D:6",
+        "H:6"
+      ],
+      "size": 36,
+      "trump": "S"
+    },
+    "field": {
+      "attack": [
+        "C:Q",
+        "H:Q"
+      ],
+      "protection": [],
+      "discharge": []
+    },
+    "round": 1
+  }
+}

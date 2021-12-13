@@ -1,0 +1,151 @@
+{
+  "players": [
+    {
+      "state": "attack",
+      "id": "rf4bgz9b6s",
+      "name": "Player3",
+      "hand": [
+        "S:9",
+        "D:8",
+        "H:10",
+        "S:8",
+        "C:9",
+        "C:Q"
+      ]
+    },
+    {
+      "state": "protection",
+      "id": "z2tvtckn5l",
+      "name": "Player1",
+      "hand": [
+        "H:J",
+        "H:8",
+        "C:7",
+        "H:K",
+        "C:8",
+        "D:K"
+      ]
+    },
+    {
+      "state": "wait",
+      "id": "2x3sln29j2",
+      "name": "Player2",
+      "hand": [
+        "D:10",
+        "C:6",
+        "D:9",
+        "D:A",
+        "S:J",
+        "S:K"
+      ]
+    }
+  ],
+  "_firstAttackInRound": "rf4bgz9b6s",
+  "_currentPlayerId": "rf4bgz9b6s",
+  "_attackPlayerId": "rf4bgz9b6s",
+  "_protectionPlayerId": "z2tvtckn5l",
+  "minPlayers": 2,
+  "maxPlayers": 8,
+  "deck": {
+    "cards": [
+      {
+        "suit": "C",
+        "value": "K",
+        "seniority": 11
+      },
+      {
+        "suit": "S",
+        "value": "A",
+        "seniority": 12
+      },
+      {
+        "suit": "D",
+        "value": "7",
+        "seniority": 5
+      },
+      {
+        "suit": "C",
+        "value": "10",
+        "seniority": 8
+      },
+      {
+        "suit": "S",
+        "value": "6",
+        "seniority": 4
+      },
+      {
+        "suit": "S",
+        "value": "Q",
+        "seniority": 10
+      },
+      {
+        "suit": "H",
+        "value": "9",
+        "seniority": 7
+      },
+      {
+        "suit": "D",
+        "value": "6",
+        "seniority": 4
+      },
+      {
+        "suit": "S",
+        "value": "7",
+        "seniority": 5
+      },
+      {
+        "suit": "H",
+        "value": "A",
+        "seniority": 12
+      },
+      {
+        "suit": "D",
+        "value": "Q",
+        "seniority": 10
+      },
+      {
+        "suit": "H",
+        "value": "Q",
+        "seniority": 10
+      },
+      {
+        "suit": "H",
+        "value": "6",
+        "seniority": 4
+      },
+      {
+        "suit": "D",
+        "value": "J",
+        "seniority": 9
+      },
+      {
+        "suit": "H",
+        "value": "7",
+        "seniority": 5
+      },
+      {
+        "suit": "S",
+        "value": "10",
+        "seniority": 8
+      },
+      {
+        "suit": "C",
+        "value": "A",
+        "seniority": 12
+      },
+      {
+        "suit": "C",
+        "value": "J",
+        "seniority": 9
+      }
+    ],
+    "size": 36,
+    "trump": "D"
+  },
+  "field": {
+    "attack": [],
+    "protection": [],
+    "discharge": []
+  },
+  "round": 0
+}

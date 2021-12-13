@@ -6,6 +6,7 @@ class Field {
 	constructor() {
 		this.attack = []; // Карты которые необходимо побить.
 		this.protection = []; // Карты которыми отбиваются.
+		this.discharge = []; // Колода сброса.
 	}
 
 	/**
@@ -47,14 +48,42 @@ class Field {
 		return [...this.getAllInOne().reduce((acc, card) => acc.add(card.value), new Set)];
 	}
 
+	/**
+	 * Сброс карт.
+	 */
+	strike() {
+		this.discharge.push({
+			attack: this.attack.map(card => card.toString()),
+			protection: this.protection.map(card => card.toString()),
+		});
+		this.clear();
+	}
+
+	clear() {
+		this.attack = [];
+		this.protection = [];
+	}
+
 	static filteredCard(player, cards) {
 		return player.hand.filter(card => !cards.some(item => Card.equalCard(card, item)));
 	}
 
 	static load(data) {
-		const filed = new Field();
-		Object.assign(filed, data);
-		return filed;
+		const field = new Field();
+		Object.assign(field, {
+			...data,
+			attack: data.attack.map(Card.getByString),
+			protection: data.protection.map(Card.getByString),
+		});
+		return field;
+	}
+
+	zip() {
+		return {
+			...this,
+			attack: this.attack.map(card => card.toString()),
+			protection: this.protection.map(card => card.toString()),
+		}
 	}
 }
 

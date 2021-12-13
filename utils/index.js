@@ -36,7 +36,12 @@ function firstCharUp(value) {
 	return value[0].toUpperCase() + value.slice(1);
 }
 
+function clone(data) {
+	return JSON.parse(JSON.stringify(data));
+}
+
 module.exports = {
+	clone,
 	random,
 	getRandomCharFromAlphabet,
 	firstCharUp,

@@ -12,14 +12,22 @@ class Player extends PlayerState {
 			throw new Error('WRONG_NAME_PLAYER');
 		}
 		if(params.id) {
-			Object.assign(this, params)
-			this.initHand();
+			Object.assign(this, {
+				...params,
+				hand: params.hand.map(Card.getByString),
+			})
 			return;
 		}
 		this.id = this.getId();
 		this.name = params.name; // Имя игрока
 		this.hand = []; // Конечно же у игрока есть "Рука", только 1 ахаха аха
-		this.state = State.Wait;
+	}
+
+	zip() {
+		return {
+			...this,
+			hand: this.hand.map(card => card.toString()),
+		}
 	}
 
 	getId () {
@@ -29,13 +37,6 @@ class Player extends PlayerState {
 			id += getRandomCharFromAlphabet(words.split(''));
 		}
 		return id;
-	}
-
-	/**
-	 * Преобразует карты игрока из строкового значения в объекты карт
-	 */
-	initHand() {
-		this.hand = this.hand.map(card => new Card(card.suit, card.value));
 	}
 
 	/**

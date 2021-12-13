@@ -5,21 +5,12 @@ const {random} = require('../utils/index');
 
 class Deck {
 	constructor(data) {
-		switch (typeof data) {
-			case "number":
-				if(!Object.keys(Deck.sizes).includes(data.toString())) {
-					throw new Error('WRONG_DECK_SIZE');
-				}
-				this.cards = this.make(data);
-				this.size = Number(this.cards.length);
-				this.trump = this.getTrump();
-				break;
-			case "object":
-				Object.assign(this, data);
-				return;
-			default:
-				throw new Error('WRONG_ARGUMENT');
+		if(!Object.keys(Deck.sizes).includes(data.toString())) {
+			throw new Error('WRONG_DECK_SIZE');
 		}
+		this.cards = this.make(data);
+		this.size = Number(this.cards.length);
+		this.trump = this.getTrump();
 	}
 
 	/**
@@ -58,7 +49,20 @@ class Deck {
 		return this.cards[random(0, this.size - 1)].suit;
 	}
 
-
+	zip() {
+		return {
+			...this,
+			cards: this.cards.map(card => card.toString()),
+		}
+	}
+	static load(data) {
+		const deck = new Deck(Object.keys(Deck.sizes)[0]); // Размер колоды тут не важен все равно перезапишем.
+		Object.assign(deck, {
+			...data,
+			cards: data.cards.map(Card.getByString),
+		});
+		return deck;
+	}
 	static get sizes () {
 		return {
 			// 52 карты (полная колода, от двоек до тузов)
