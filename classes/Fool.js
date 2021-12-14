@@ -69,10 +69,7 @@ class Fool extends Game {
 	 * @return {string}
 	 */
 	log(...args) {
-		if(this._debug){
 			console.log(...args, JSON.stringify(this.zip()));
-		}
-
 	}
 
 	/**
@@ -167,64 +164,6 @@ class Fool extends Game {
 	}
 
 	/**
-	 * @deprecated
-	 * Возвращает id следующего игрока.
-	 * @param player {Player}
-	 */
-	getNextPlayer(player) {
-
-		// switch (player.state) {
-		// 	// case State.Wait:
-		// 	// 	console.log({player});
-		// 	// 	this.field.getAllInOne().forEach(card => uniqValuesOnField.add(card.value));
-		// 	// 	if(player.hand.some(card => uniqValuesOnField.has(card.value))) {
-		// 	// 		// Есть допустимые карты для того чтобы их подкинуть.
-		// 	// 		console.error(`Игрок ${player.name} перешел в статус Throw`);
-		// 	// 		return player;
-		// 	// 	}
-		// 	// 	this.log('getNextPlayer.Wait')
-		// 	// 	break;
-		// 	// Этот игрок должен начать подкидывать но может ли он это сделать ?
-		// 	// Проверяем карты в руке игрока и карты которые уже лежат на поле
-		// 	// Если в руке игрока нет карты значение которой есть у него в руке ход переходит другому игроку.
-		// 	// case State.Throw:
-		// 	// 	this.field.getAllInOne().forEach(card => uniqValuesOnField.add(card.value));
-		// 	// 	if(player.hand.some(card => uniqValuesOnField.has(card.value))) {
-		// 	// 		// Есть допустимые карты для того чтобы их подкинуть.
-		// 	// 		console.error(`Игрок ${player.name} перешел в статус Throw`);
-		// 	// 		return player;
-		// 	// 	}
-		// 	// 	player.setState(State.End);
-		// 	// 	// Пытаемся найти следующего игрока
-		// 	// 	const nextPlayer = this.players.find(player => ![this.protectionPlayer.id, this.attackPlayer.id].includes(player.id) && player.state !== State.End);
-		// 	// 	this.log({nextPlayer});
-		// 	// 	if(nextPlayer) {
-		// 	// 		nextPlayer.setState(State.Throw); // Задаём следующему игроку статус "Подбрасывает карты"
-		// 	// 		this.log('===================================================================')
-		// 	// 		const next = this.getNextPlayer(nextPlayer);
-		// 	// 		this.log({next})
-		// 	// 		return next;
-		// 	// 	}
-		// 	//
-		// 	// 	this.log(this.field)
-		// 	// 	this.log(player)
-		// 	// 	throw new Error('!!!TODO!!!');
-		// 	// 	return  '12312312312312;'
-		// 	// 	break;
-		// 	// case State.Attack:
-		// 	// 	this.log('getNextPlayer.Attack')
-		// 	// 	break;
-		// 	// case State.Protection:
-		// 	// 	this.log('getNextPlayer.Protection')
-		// 	// 	break;
-		// 	// case State.End:
-		// 	// 	this.log('getNextPlayer.End')
-		// 	// 	break;
-		// }
-		return player;
-	}
-
-	/**
 	 * Ход игрока, игрок выкладывает карты на поле.
 	 */
 	attack(data = []) {
@@ -311,18 +250,13 @@ class Fool extends Game {
 		// Игрок который не смог побить карты забирает все карты с поля в руку.
 		this.currentPlayer.hand.push(...this.field.getAllInOne());
 		this.field.clear(); // Очищаем игровое поле
-		const other = this.players.filter(player => ![this.protectionPlayer.id, this.attackPlayer.id].includes(player.id))
+		const attackQueue = this.players.filter(player => ![this.currentPlayer.id, this.attackPlayer.id].includes(player.id));
+		attackQueue.push(this.attackPlayer)
+		const [attack] = attackQueue;
+		const protectionQueue = this.players.filter(player => ![this.protectionPlayer.id, attack.id].includes(player.id));
+		protectionQueue.push(this.protectionPlayer)
+		const [protection] = protectionQueue;
 
-		let attack;
-		let protection;
-		// Если 2 игрока
-		if(this.players.length > 2) {
-			attack = other[0];
-			protection = this.players.find(player => this.protectionPlayer.id !== player.id);
-		} else {
-			attack = this.attackPlayer;
-			protection = this.protectionPlayer;
-		}
 		this.distribution([this.firstAttackInRound, ...this.players.filter(plr => plr.id !== this.firstAttackInRound.id)]);
 		this.nextRoundPlayers(attack, protection);
 	}
@@ -410,11 +344,11 @@ class Fool extends Game {
 	 */
 	nextRoundPlayers(attackPlayer, protectionPlayer) {
 		this.attackPlayer = attackPlayer; 	// Атакующая сторона.
-		this.attackPlayer.state = State.Attack; // Игрок атакует
+		this.attackPlayer.setState(State.Attack); // Игрок атакует
 		this.currentPlayer = this.attackPlayer; // Передаём ход игроку который отбивался.
 		this.firstAttackInRound = this.currentPlayer; // Сохраняем его id как игрока который ходит первый в этом кругу.
 		this.protectionPlayer = protectionPlayer;
-		this.protectionPlayer.state = State.Protection;
+		this.protectionPlayer.setState(State.Protection);
 		// Оставшиеся игроки ждут своей ход.
 		const filtered = this.players.filter(player => ![this.protectionPlayer.id, this.attackPlayer.id].includes(player.id)).map(({id}) => (id));
 		filtered.forEach(pId => {

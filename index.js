@@ -1,8 +1,12 @@
 'use strict';
 
+
+
 const START_COMMAND = '/';
 const [, , ...players] = process.argv;
+const Fool = require('./classes/Fool');
 const Card = require('./classes/Card');
+const {State} = require('./classes/PlayerState');
 
 process.stdin.resume();
 process.stdin.setEncoding('utf-8');
@@ -22,6 +26,16 @@ const commands = {
 	'hit': {
 		description: `Отбиться перечисленными картами`,
 		example: '\x1b[32m/hit \x1b[34mD:A D:7 S:A\x1b[0m'
+	},
+	// Закончить свой ход. Отказаться от подкидывания карты
+	'end': {
+		description: `Отказаться от подкидывания карт в атакующую сторону поля. Ход переходит следующему игроку`,
+		example: '\x1b[32m/end\x1b[0m'
+	},
+	// Подкидываю. Подкидывает карту из руки в зону атакующих карт
+	'throw': {
+		description: `Подкинуть карту значение которой уже есть на поле`,
+		example: '\x1b[32m/throw \x1b[34mD:A D:7 S:A\x1b[0m'
 	},
 	// Пропуск. (не чем бить или тактический ход)
 	'pass': {
@@ -61,18 +75,32 @@ const errors = {
 
 // console.log({players})
 
-const Fool = require('./classes/Fool');
+const debug = [];
 
 const game = new Fool(players);
 
 function showView() {
+	console.log(game.log());
 	console.clear();
 	console.log('\x1b[34mХод: \x1b[0m', game.currentPlayer.name);
 	console.log('\x1b[34mКозырь: \x1b[0m', game.deck.trump);
-	console.log('\x1b[34mКарты на столе: \x1b[0m', game.field.attack.map(card => card.toString()));
+	console.log('\x1b[34mКарты атаки: \x1b[0m', game.field.attack.map(card => card.toString()));
+	console.log('\x1b[34mКарты защиты: \x1b[0m', game.field.protection.map(card => card.toString()));
 	console.log('\x1b[34mКарты в руке: \x1b[0m', game.currentPlayer.hand.sort(Card.sortBySeniority()).map(card => card.toString()));
-	console.log('Чтобы сделать ход: \x1b[32m/attack \x1b[34m<Card> <Card> ...')
-
+	switch (game.currentPlayer.state) {
+		case State.Throw:
+			console.log('Чтобы сделать ход: \x1b[32m/throw \x1b[34m<Card> <Card> ... или закончите свой ход: \x1b[32m/end');
+			break;
+		case State.Attack:
+			console.log('Чтобы сделать ход: \x1b[32m/attack \x1b[34m<Card> <Card> ...');
+			break;
+		case State.Protection:
+			console.log('Чтобы сделать ход: \x1b[32m/hit \x1b[34m<Card> <Card> ... или чтобы сдаться \x1b[32m/pass');
+			break;
+		default:
+			console.error('default');
+			break;
+	}
 	console.log('\x1b[0m') //Color - reset;
 }
 
@@ -104,10 +132,23 @@ process.stdin.on('data', inputStdin => {
 				case 'attack':
 				case 'hit':
 				case 'pass':
+				case 'throw':
+				case 'end':
+					const arr = [];
+					arr.push(game.zip());
+					arr.push({
+						command,
+						"args": [data],
+					});
+
 					game[command](data);
+
+					arr.push(game.zip());
+					debug.push(arr);
 					break;
 				case 'debug':
-					console.log(game.debug());
+					console.log(JSON.stringify(debug));
+					return true;
 					break;
 			}
 			showView();

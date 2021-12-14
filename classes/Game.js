@@ -4,7 +4,6 @@ const Player = require("./Player");
 
 class Game {
 	constructor(players) {
-		this._debug = false;
 		this.players = players.map(name => new Player({name})); // Массив игроков
 
 		this._firstAttackInRound = null; // Первый атакующий игрок. Он же первый берёт карты в конце раунда.
@@ -14,9 +13,7 @@ class Game {
 	}
 
 	log(...args) {
-		if(this._debug) {
 			console.log(...args);
-		}
 	}
 
 
@@ -28,7 +25,7 @@ class Game {
 		return this.players.find(player => player.id === this._currentPlayerId);
 	}
 	set currentPlayer(player) {
-		this._currentPlayerId = this.getNextPlayer(player).id;
+		this._currentPlayerId = player.id;
 	}
 
 	get firstAttackInRound() {

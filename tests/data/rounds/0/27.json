@@ -1,0 +1,166 @@
+{
+  "before": {
+    "players": [
+      {
+        "state": "protection",
+        "id": "y3zduxqs54",
+        "name": "Петя",
+        "hand": [
+          "S:6",
+          "D:7",
+          "D:8",
+          "H:9",
+          "S:9"
+        ]
+      },
+      {
+        "state": "wait",
+        "id": "yubgqykrg2",
+        "name": "Дима",
+        "hand": [
+          "D:6",
+          "C:6",
+          "S:8",
+          "H:Q",
+          "H:A",
+          "C:A"
+        ]
+      },
+      {
+        "state": "end",
+        "id": "3nvpqd2ub2",
+        "name": "Вася",
+        "hand": [
+          "C:10",
+          "H:J",
+          "C:Q",
+          "S:K",
+          "H:K"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "3nvpqd2ub2",
+    "_currentPlayerId": "y3zduxqs54",
+    "_attackPlayerId": "3nvpqd2ub2",
+    "_protectionPlayerId": "y3zduxqs54",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [
+        "D:Q",
+        "C:8",
+        "S:10",
+        "D:K",
+        "H:6",
+        "D:J",
+        "S:A",
+        "D:A",
+        "H:8",
+        "C:K",
+        "S:J",
+        "C:J",
+        "H:7",
+        "D:10",
+        "H:10",
+        "S:Q"
+      ],
+      "size": 36,
+      "trump": "C"
+    },
+    "field": {
+      "attack": [
+        "C:7",
+        "S:7",
+        "D:9"
+      ],
+      "protection": [
+        "C:9"
+      ],
+      "discharge": []
+    },
+    "round": 1
+  },
+  "command": "pass",
+  "args": [],
+  "after": {
+    "players": [
+      {
+        "state": "wait",
+        "id": "y3zduxqs54",
+        "name": "Петя",
+        "hand": [
+          "S:6",
+          "D:7",
+          "D:8",
+          "H:9",
+          "S:9",
+          "C:7",
+          "S:7",
+          "D:9",
+          "C:9"
+        ]
+      },
+      {
+        "state": "attack",
+        "id": "yubgqykrg2",
+        "name": "Дима",
+        "hand": [
+          "D:6",
+          "C:6",
+          "S:8",
+          "H:Q",
+          "H:A",
+          "C:A"
+        ]
+      },
+      {
+        "state": "protection",
+        "id": "3nvpqd2ub2",
+        "name": "Вася",
+        "hand": [
+          "C:10",
+          "H:J",
+          "C:Q",
+          "S:K",
+          "H:K",
+          "D:Q"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "yubgqykrg2",
+    "_currentPlayerId": "yubgqykrg2",
+    "_attackPlayerId": "yubgqykrg2",
+    "_protectionPlayerId": "3nvpqd2ub2",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [
+        "C:8",
+        "S:10",
+        "D:K",
+        "H:6",
+        "D:J",
+        "S:A",
+        "D:A",
+        "H:8",
+        "C:K",
+        "S:J",
+        "C:J",
+        "H:7",
+        "D:10",
+        "H:10",
+        "S:Q"
+      ],
+      "size": 36,
+      "trump": "C"
+    },
+    "field": {
+      "attack": [],
+      "protection": [],
+      "discharge": []
+    },
+    "round": 2
+  }
+}
