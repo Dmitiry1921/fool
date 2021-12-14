@@ -34,9 +34,6 @@ class PlayerState extends State {
 	}
 
 	setState(newState) {
-		if(!PlayerState.flow[this.state].includes(newState)) {
-			throw new Error('NOT_AVAILABLE_STATE');
-		}
 		Object.assign(this, new PlayerState(newState));
 	}
 

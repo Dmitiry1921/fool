@@ -12,6 +12,7 @@ class Fool extends Game {
 		super(players);
 		this.minPlayers = 2;
 		this.maxPlayers = 8;
+		this.maxAttackCards = 6;
 		if(players.length < this.minPlayers) {
 			throw new Error('WRONG_MIN_PLAYERS');
 		}
@@ -80,10 +81,23 @@ class Fool extends Game {
 	distribution(players = this.players) {
 		players.forEach((player) => {
 		    if(player.hand.length < 6) {
-		    	player.hand.push(this.deck.cards.shift());
-		    	this.distribution(players);
+		    	const card = this.deck.cards.shift();
+		    	if(!card) {
+		    		// Карты кончились к колоде, проверяем нет ли игрока без единой карты в руке.
+		    		this.gameOver();
+					return;
+				}
+				player.hand.push(card);
+				this.distribution(players);
 			}
 		})
+	}
+
+	gameOver() {
+		// В колоде нет карт, и у одного из игроков в руке нет карт игрок без карт победил.
+		if(!this.deck.cards.length && this.players.some(player => player.hand.length === 0)) {
+			throw Error('!!!! GAME OVER !!!')
+		}
 	}
 
 	markCard(marker) {
@@ -128,53 +142,85 @@ class Fool extends Game {
 		return this.players.find(player => player.name === name);
 	}
 
+	getThrowPlayer(startPlayer) {
+		let player;
+		if(startPlayer){
+			player = startPlayer;
+		} else {
+			// Ищем игрока который не "Защищается" и не в статусе End
+			player = this.players.find(player => (this.protectionPlayer.id !== player.id && player.state !== State.End));
+		}
+
+		if(!player) {
+			return;
+		}
+		const uniqValuesOnField = new Set();
+		this.field.getAllInOne().forEach(card => uniqValuesOnField.add(card.value));
+		if(!player.hand.some(card => uniqValuesOnField.has(card.value))) {
+			// Есть допустимые карты для того чтобы их подкинуть.
+			console.error(`У игрока ${player.name} нет карт чтобы подкидывать => End.`);
+			player.setState(State.End);
+			return this.getThrowPlayer();
+		}
+		player.setState(State.Throw);
+		return player;
+	}
+
 	/**
+	 * @deprecated
 	 * Возвращает id следующего игрока.
 	 * @param player {Player}
 	 */
 	getNextPlayer(player) {
-		switch (player.state) {
-			case State.Wait:
-				this.log('getNextPlayer.Wait')
-				break;
-			// Этот игрок должен начать подкидывать но может ли он это сделать ?
-			// Проверяем карты в руке игрока и карты которые уже лежат на поле
-			// Если в руке игрока нет карты значение которой есть у него в руке ход переходит другому игроку.
-			case State.Throw:
-				const uniqValuesOnField = new Set();
-				this.field.getAllInOne().forEach(card => uniqValuesOnField.add(card.value));
-				if(player.hand.some(card => [...uniqValuesOnField].includes(card.value))) {
-					// Есть допустимые карты для того чтобы их подкинуть.
-					console.error(`Игрок ${player.name} перешел в статус Throw`);
-					return player;
-				}
-				// Пытаемся найти следующего игрока
-				const nextPlayer = this.players.find(player => ![this.protectionPlayer.id, this.attackPlayer.id].includes(player.id) && player.state !== State.End);
-				this.log({nextPlayer});
-				if(nextPlayer) {
-					player.setState(State.End);
-					nextPlayer.setState(State.Throw); // Задаём следующему игроку статус "Подбрасывает карты"
-					this.log('===================================================================')
-					const next = this.getNextPlayer(nextPlayer);
-					this.log({next})
-					return next;
-				}
 
-				this.log(this.field)
-				this.log(player)
-				throw new Error('!!!TODO!!!');
-				return  '12312312312312;'
-				break;
-			case State.Attack:
-				this.log('getNextPlayer.Attack')
-				break;
-			case State.Protection:
-				this.log('getNextPlayer.Protection')
-				break;
-			case State.End:
-				this.log('getNextPlayer.End')
-				break;
-		}
+		// switch (player.state) {
+		// 	// case State.Wait:
+		// 	// 	console.log({player});
+		// 	// 	this.field.getAllInOne().forEach(card => uniqValuesOnField.add(card.value));
+		// 	// 	if(player.hand.some(card => uniqValuesOnField.has(card.value))) {
+		// 	// 		// Есть допустимые карты для того чтобы их подкинуть.
+		// 	// 		console.error(`Игрок ${player.name} перешел в статус Throw`);
+		// 	// 		return player;
+		// 	// 	}
+		// 	// 	this.log('getNextPlayer.Wait')
+		// 	// 	break;
+		// 	// Этот игрок должен начать подкидывать но может ли он это сделать ?
+		// 	// Проверяем карты в руке игрока и карты которые уже лежат на поле
+		// 	// Если в руке игрока нет карты значение которой есть у него в руке ход переходит другому игроку.
+		// 	// case State.Throw:
+		// 	// 	this.field.getAllInOne().forEach(card => uniqValuesOnField.add(card.value));
+		// 	// 	if(player.hand.some(card => uniqValuesOnField.has(card.value))) {
+		// 	// 		// Есть допустимые карты для того чтобы их подкинуть.
+		// 	// 		console.error(`Игрок ${player.name} перешел в статус Throw`);
+		// 	// 		return player;
+		// 	// 	}
+		// 	// 	player.setState(State.End);
+		// 	// 	// Пытаемся найти следующего игрока
+		// 	// 	const nextPlayer = this.players.find(player => ![this.protectionPlayer.id, this.attackPlayer.id].includes(player.id) && player.state !== State.End);
+		// 	// 	this.log({nextPlayer});
+		// 	// 	if(nextPlayer) {
+		// 	// 		nextPlayer.setState(State.Throw); // Задаём следующему игроку статус "Подбрасывает карты"
+		// 	// 		this.log('===================================================================')
+		// 	// 		const next = this.getNextPlayer(nextPlayer);
+		// 	// 		this.log({next})
+		// 	// 		return next;
+		// 	// 	}
+		// 	//
+		// 	// 	this.log(this.field)
+		// 	// 	this.log(player)
+		// 	// 	throw new Error('!!!TODO!!!');
+		// 	// 	return  '12312312312312;'
+		// 	// 	break;
+		// 	// case State.Attack:
+		// 	// 	this.log('getNextPlayer.Attack')
+		// 	// 	break;
+		// 	// case State.Protection:
+		// 	// 	this.log('getNextPlayer.Protection')
+		// 	// 	break;
+		// 	// case State.End:
+		// 	// 	this.log('getNextPlayer.End')
+		// 	// 	break;
+		// }
 		return player;
 	}
 
@@ -207,6 +253,8 @@ class Fool extends Game {
 		this.currentPlayer.setState(State.Throw);
 		// Передаем ход стороне защиты.
 		this.currentPlayer = this.protectionPlayer;
+		// Проверяем окончание игры
+		this.gameOver();
 	}
 
 	/**
@@ -238,12 +286,19 @@ class Fool extends Game {
 			}
 		});
 		this.field.putProtection(this.currentPlayer, cards);
-		this.log(this.attackPlayer.state)
+		if(this.field.isStrike(this.maxAttackCards)){
+			this.strike();
+			return;
+		}
 		this.currentPlayer.setState(State.Wait);
+		const thrower = this.getThrowPlayer(this.attackPlayer);
+		if(!thrower) {
+			// Некому подкидывать, БИТО!
+			this.strike();
+			return;
+		}
 		// Передаем ход атакующей стороне.
-		this.log({cur: this.currentPlayer, attack: this.attackPlayer})
-		this.currentPlayer = this.attackPlayer;
-		this.currentPlayer.setState(State.Throw);
+		this.currentPlayer = thrower;
 	}
 
 	/**

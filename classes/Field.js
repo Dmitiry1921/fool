@@ -52,11 +52,16 @@ class Field {
 	 * Сброс карт.
 	 */
 	strike() {
+		// TODO: убрать discharge или оставить только как лог..
 		this.discharge.push({
 			attack: this.attack.map(card => card.toString()),
 			protection: this.protection.map(card => card.toString()),
 		});
 		this.clear();
+	}
+
+	isStrike(count) {
+		return this.attack.length === this.protection.length && count === this.protection.length;
 	}
 
 	clear() {

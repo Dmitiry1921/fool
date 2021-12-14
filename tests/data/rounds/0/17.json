@@ -102,7 +102,7 @@
   "after": {
     "players": [
       {
-        "state": "wait",
+        "state": "throw",
         "id": "6ltddedi5z",
         "name": "Player1",
         "hand": [
@@ -115,7 +115,7 @@
         ]
       },
       {
-        "state": "throw",
+        "state": "end",
         "id": "jfg8vih577",
         "name": "Player2",
         "hand": [
@@ -138,7 +138,7 @@
       }
     ],
     "_firstAttackInRound": "jfg8vih577",
-    "_currentPlayerId": "jfg8vih577",
+    "_currentPlayerId": "6ltddedi5z",
     "_attackPlayerId": "jfg8vih577",
     "_protectionPlayerId": "fznemhwlii",
     "minPlayers": 2,

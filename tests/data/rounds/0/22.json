@@ -2,7 +2,7 @@
   "before": {
     "players": [
       {
-        "state": "throw",
+        "state": "wait",
         "id": "6ltddedi5z",
         "name": "Player1",
         "hand": [
@@ -10,18 +10,16 @@
           "C:9",
           "C:6",
           "H:9",
-          "C:K",
-          "H:J"
+          "C:K"
         ]
       },
       {
-        "state": "end",
+        "state": "throw",
         "id": "jfg8vih577",
         "name": "Player2",
         "hand": [
           "H:A",
           "H:10",
-          "S:K",
           "C:A"
         ]
       },
@@ -30,15 +28,13 @@
         "id": "fznemhwlii",
         "name": "Player3",
         "hand": [
-          "H:K",
           "D:7",
-          "S:A",
           "C:7"
         ]
       }
     ],
     "_firstAttackInRound": "jfg8vih577",
-    "_currentPlayerId": "6ltddedi5z",
+    "_currentPlayerId": "jfg8vih577",
     "_attackPlayerId": "jfg8vih577",
     "_protectionPlayerId": "fznemhwlii",
     "minPlayers": 2,
@@ -60,11 +56,15 @@
     "field": {
       "attack": [
         "H:7",
-        "S:7"
+        "S:7",
+        "H:J",
+        "S:K"
       ],
       "protection": [
         "H:8",
-        "S:J"
+        "S:J",
+        "H:K",
+        "S:A"
       ],
       "discharge": [
         {
@@ -93,16 +93,12 @@
     },
     "round": 3
   },
-  "command": "throw",
-  "args": [
-    [
-      "H:J"
-    ]
-  ],
+  "command": "end",
+  "args": [],
   "after": {
     "players": [
       {
-        "state": "wait",
+        "state": "throw",
         "id": "6ltddedi5z",
         "name": "Player1",
         "hand": [
@@ -120,24 +116,21 @@
         "hand": [
           "H:A",
           "H:10",
-          "S:K",
           "C:A"
         ]
       },
       {
-        "state": "protection",
+        "state": "wait",
         "id": "fznemhwlii",
         "name": "Player3",
         "hand": [
-          "H:K",
           "D:7",
-          "S:A",
           "C:7"
         ]
       }
     ],
     "_firstAttackInRound": "jfg8vih577",
-    "_currentPlayerId": "fznemhwlii",
+    "_currentPlayerId": "6ltddedi5z",
     "_attackPlayerId": "jfg8vih577",
     "_protectionPlayerId": "fznemhwlii",
     "minPlayers": 2,
@@ -160,11 +153,14 @@
       "attack": [
         "H:7",
         "S:7",
-        "H:J"
+        "H:J",
+        "S:K"
       ],
       "protection": [
         "H:8",
-        "S:J"
+        "S:J",
+        "H:K",
+        "S:A"
       ],
       "discharge": [
         {
