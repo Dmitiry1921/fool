@@ -55,15 +55,17 @@ const errors = {
 	ATTACK_CARD_NOT_IN_HAND: `Указанной карты нет в вашей руке`,
 	ATTACK_UNAVAILABLE: `Используйте команду \x1b[32m/hit\x1b[33m чтобы отбится или \x1b[32m/pass\x1b[33m чтобы пропустить ход\x1b[0m`,
 	ATTACK_PROTECTION_PLAYER_HAVE_LESS_CARD: 'Нельзя атаковать большим кол-вом карт чем есть у защищающегося игрока в руке',
-	HIT_UNAVAILABLE: 'Используйте команду \x1b[32m/attack\x1b[33m чтобы сделать свой ход',
-	HIT_NO_CARD: 'Положите карты которыми хотите побить карты на поле.',
+	HIT_UNAVAILABLE: 'Нельзя атаковать сейчас',
+	HIT_NO_CARD: 'Положите карты которыми хотите побить карты на поле',
 	HIT_CARD_COUNT_NOT_EQUAL_FIELD_COUNT: 'Кол-во переданных карт не равно кол-ву карт на поле',
-	HIT_CANT_FIGHT: 'Переданными картами нельзя побить карты на поле.',
+	HIT_CANT_FIGHT: 'Переданными картами нельзя побить карты на поле',
 	HIT_CARD_NOT_IN_HAND: `Указанной карты нет в вашей руке`,
-	THROW_UNAVAILABLE: ``,
-	THROW_ALL_ATTACK_CARDS_SHOULD_BE_PROTECTION: ``, //Все карты на поле должны быть побиты.
-	THROW_UNAVAILABLE_VALUE_CARD: ``, //Нельзя подкинуть карту значение которой нет на поле.
-	THROW_MAX_ALLOWABLE_CARDS_ON_FILED: ``, // Чисто подкидываемых карт и карт на столе не может превышать 6 в первый ход вообще 5.
+	THROW_UNAVAILABLE: `Сейчас нельзя подкидывать карты`,
+	THROW_ALL_ATTACK_CARDS_SHOULD_BE_PROTECTION: `Все карты на поле должны быть побиты`,
+	THROW_UNAVAILABLE_VALUE_CARD: `Нельзя подкинуть карту значение которой нет на поле`,
+	THROW_CARD_LIMIT_EXCEEDED: `Нельзя подкинуть больше карт чем у игрока защиты в руке`,
+	THROW_MAX_ALLOWABLE_CARDS_ON_FILED: `Число подкидываемых карт и карт на столе не может превышать 6`,
+	GAME_OVER: `Игра окончена`
 };
 
 // process.stdin.on('end', _ => {
@@ -77,7 +79,8 @@ const errors = {
 
 const debug = [];
 
-const game = new Fool(players);
+// const game = new Fool(players);
+const game = Fool.load(require(`./tests/data/rounds/0/31`).before); // FROM TEST
 
 function showView() {
 	console.log(game.log());
@@ -86,6 +89,7 @@ function showView() {
 	console.log('\x1b[34mКозырь: \x1b[0m', game.deck.trump);
 	console.log('\x1b[34mКарты атаки: \x1b[0m', game.field.attack.map(card => card.toString()));
 	console.log('\x1b[34mКарты защиты: \x1b[0m', game.field.protection.map(card => card.toString()));
+	console.log('\x1b[34mКол-во карт у игрока защиты: \x1b[0m', game.protectionPlayer.hand.length);
 	console.log('\x1b[34mКарты в руке: \x1b[0m', game.currentPlayer.hand.sort(Card.sortBySeniority()).map(card => card.toString()));
 	switch (game.currentPlayer.state) {
 		case State.Throw:
@@ -160,13 +164,17 @@ process.stdin.on('data', inputStdin => {
 			console.log('\x1b[31mERROR:\x1b[33m Неизвестная команда. Используйте \x1b[32m/help \x1b[33mдля помощи\x1b[0m');
 		}
 	} catch (err) {
+		if(err.message === 'GAME_OVER') {
+			console.log(`\x1b[31m${errors.GAME_OVER}! Игрок:\x1b[33m ${game.players.find(pl => pl.hand.length).name}\x1b[31m проиграл!\x1b[0m`);
+			process.exit(0);
+			return;
+		}
 		if (errors[err.message]) {
 			showView();
 			console.log(`\x1b[31mERROR:\x1b[33m ${errors[err.message]}\x1b[0m`);
 			return false;
-		} else {
-			console.log(err);
 		}
+		console.log(err);
 	}
 	// process.exit(0);
 });

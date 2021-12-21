@@ -191,7 +191,6 @@ describe('Testing Fool with 36 card and 3 Players', () => {
 			game._debug = true;
 			game.log();
 			assert.deepStrictEqual(game, Fool.load(testData.after));
-			assert.deepStrictEqual(testData.after, testData.before);
 		});
 		it('#27', () => {
 			const testData = getTestData(0, 27);
@@ -206,7 +205,34 @@ describe('Testing Fool with 36 card and 3 Players', () => {
 			game._debug = true;
 			game.log();
 			assert.deepStrictEqual(game, Fool.load(testData.after));
-			assert.deepStrictEqual(testData.after, testData.before);
+		});
+		it('#29', () => {
+			const testData = getTestData(0, 29);
+			const game = loadGame(testData);
+			game[testData.command](...testData.args);
+			game._debug = true;
+			game.log();
+			assert.deepStrictEqual(game, Fool.load(testData.after));
+		});
+		it('#30 game over', () => {
+			const testData = getTestData(0, 30);
+			const game = loadGame(testData);
+			assert.throws(() => {
+				game[testData.command](...testData.args);
+			}, new Error('GAME_OVER'));
+
+			game._debug = true;
+			game.log();
+			// assert.deepStrictEqual(game, Fool.load(testData.after));
+		});
+		it('#31', () => {
+				const testData = getTestData(0, 31);
+				const game = loadGame(testData);
+				game[testData.command](...testData.args);
+				game._debug = true;
+				game.log();
+				assert.deepStrictEqual(game, Fool.load(testData.after));
+				assert.deepStrictEqual(testData.after, testData.before);
 		});
 		// it('#<>', () => {
 		// 	const testData = getTestData(0, 12);

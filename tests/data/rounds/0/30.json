@@ -1,0 +1,236 @@
+{
+  "before": {
+    "players": [
+      {
+        "state": "wait",
+        "id": "f7s8n8cpmt",
+        "name": "Дима",
+        "hand": [
+          "C:J",
+          "H:Q",
+          "D:A"
+        ]
+      },
+      {
+        "state": "throw",
+        "id": "c7vn92fgnx",
+        "name": "Полина",
+        "hand": [
+          "D:K"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "c7vn92fgnx",
+    "_currentPlayerId": "c7vn92fgnx",
+    "_attackPlayerId": "c7vn92fgnx",
+    "_protectionPlayerId": "f7s8n8cpmt",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [],
+      "size": 36,
+      "trump": "S"
+    },
+    "field": {
+      "attack": [
+        "D:7",
+        "S:7"
+      ],
+      "protection": [
+        "D:J",
+        "S:K"
+      ],
+      "discharge": [
+        {
+          "attack": [
+            "C:6"
+          ],
+          "protection": [
+            "C:Q"
+          ]
+        },
+        {
+          "attack": [
+            "D:9"
+          ],
+          "protection": [
+            "S:10"
+          ]
+        },
+        {
+          "attack": [
+            "H:6",
+            "C:7"
+          ],
+          "protection": [
+            "H:7",
+            "S:J"
+          ]
+        },
+        {
+          "attack": [
+            "D:6"
+          ],
+          "protection": [
+            "D:8"
+          ]
+        },
+        {
+          "attack": [
+            "H:10",
+            "D:10",
+            "C:K"
+          ],
+          "protection": [
+            "H:K",
+            "D:Q",
+            "S:Q"
+          ]
+        },
+        {
+          "attack": [
+            "C:8"
+          ],
+          "protection": [
+            "C:10"
+          ]
+        },
+        {
+          "attack": [
+            "H:8",
+            "S:8"
+          ],
+          "protection": [
+            "H:9",
+            "S:A"
+          ]
+        },
+        {
+          "attack": [
+            "C:9",
+            "H:A"
+          ],
+          "protection": [
+            "C:A",
+            "S:9"
+          ]
+        },
+        {
+          "attack": [
+            "H:J"
+          ],
+          "protection": [
+            "S:6"
+          ]
+        }
+      ]
+    },
+    "round": 9
+  },
+  "command": "throw",
+  "args": [
+    [
+      "D:K"
+    ]
+  ],
+  "after": {
+    "players": [
+      {
+        "state": "wait",
+        "id": "35gqycgj8k",
+        "name": "Полина",
+        "hand": [
+          "S:8",
+          "D:K",
+          "D:A",
+          "C:K",
+          "S:Q",
+          "C:A",
+          "H:Q",
+          "S:A"
+        ]
+      },
+      {
+        "state": "attack",
+        "id": "1bbck97qa5",
+        "name": "Дима",
+        "hand": [
+          "S:6",
+          "C:8",
+          "D:8"
+        ]
+      },
+      {
+        "state": "protection",
+        "id": "cw91plxzc1",
+        "name": "Пени",
+        "hand": [
+          "H:8",
+          "H:10",
+          "C:Q",
+          "H:K",
+          "H:A"
+        ]
+      },
+      {
+        "state": "wait",
+        "id": "bsn5d6k2i5",
+        "name": "Стас",
+        "hand": [
+          "D:7",
+          "H:7",
+          "D:9",
+          "C:9",
+          "S:10",
+          "D:Q"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "1bbck97qa5",
+    "_currentPlayerId": "1bbck97qa5",
+    "_attackPlayerId": "1bbck97qa5",
+    "_protectionPlayerId": "cw91plxzc1",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [],
+      "size": 36,
+      "trump": "H"
+    },
+    "field": {
+      "attack": [],
+      "protection": [],
+      "discharge": [
+        {
+          "attack": [
+            "C:6",
+            "D:6",
+            "H:6"
+          ],
+          "protection": [
+            "C:10",
+            "D:10",
+            "H:J"
+          ]
+        },
+        {
+          "attack": [
+            "S:7",
+            "C:7",
+            "D:J",
+            "S:9"
+          ],
+          "protection": [
+            "S:J",
+            "C:J",
+            "H:9",
+            "S:K"
+          ]
+        }
+      ]
+    },
+    "round": 2
+  }
+}

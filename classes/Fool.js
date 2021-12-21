@@ -80,8 +80,6 @@ class Fool extends Game {
 		    if(player.hand.length < 6) {
 		    	const card = this.deck.cards.shift();
 		    	if(!card) {
-		    		// Карты кончились к колоде, проверяем нет ли игрока без единой карты в руке.
-		    		this.gameOver();
 					return;
 				}
 				player.hand.push(card);
@@ -91,10 +89,14 @@ class Fool extends Game {
 	}
 
 	gameOver() {
-		// В колоде нет карт, и у одного из игроков в руке нет карт игрок без карт победил.
-		if(!this.deck.cards.length && this.players.some(player => player.hand.length === 0)) {
-			throw Error('!!!! GAME OVER !!!')
+		if(this.deck.cards.length) {
+			return;
 		}
+		// В колоде нет карт, и у одного из игроков в руке нет карт игрок без карт победил.
+		if(this.players.filter(player => player.hand.length).length !== 1) {
+			return;
+		}
+		throw Error('GAME_OVER');
 	}
 
 	markCard(marker) {
@@ -164,6 +166,22 @@ class Fool extends Game {
 	}
 
 	/**
+	 * Возвращает первого игрока из очереди
+	 * @param excludePlayers - Игроки которых ставим в конец очереди
+	 * @param [allowEmptyHand] - у первого игрока может быть пустая рука
+	 * @param [playersQueue] - очередь игроков.
+	 * @return {*}
+	 */
+	getFirstPlayerInQueue(excludePlayers, allowEmptyHand = true, playersQueue = this.players) {
+		let queue = playersQueue.filter(player => !excludePlayers.map(pl => pl.id).includes(player.id));
+		queue.push(...excludePlayers);
+		if(!allowEmptyHand) {
+			queue = queue.filter(player => player.hand.length);
+		}
+		return queue[0];
+	}
+
+	/**
 	 * Ход игрока, игрок выкладывает карты на поле.
 	 */
 	attack(data = []) {
@@ -225,7 +243,7 @@ class Fool extends Game {
 			}
 		});
 		this.field.putProtection(this.currentPlayer, cards);
-		if(this.field.isStrike(this.maxAttackCards)){
+		if(this.field.isStrike(this.maxAttackCards) || this.currentPlayer.hand.length === 0){
 			this.strike();
 			return;
 		}
@@ -250,12 +268,14 @@ class Fool extends Game {
 		// Игрок который не смог побить карты забирает все карты с поля в руку.
 		this.currentPlayer.hand.push(...this.field.getAllInOne());
 		this.field.clear(); // Очищаем игровое поле
-		const attackQueue = this.players.filter(player => ![this.currentPlayer.id, this.attackPlayer.id].includes(player.id));
-		attackQueue.push(this.attackPlayer)
-		const [attack] = attackQueue;
-		const protectionQueue = this.players.filter(player => ![this.protectionPlayer.id, attack.id].includes(player.id));
-		protectionQueue.push(this.protectionPlayer)
-		const [protection] = protectionQueue;
+		// const attackQueue = this.players.filter(player => ![this.currentPlayer.id, this.attackPlayer.id].includes(player.id));
+		// attackQueue.push(this.attackPlayer)
+		// const [attack] = attackQueue;
+		const attack = this.getFirstPlayerInQueue([this.currentPlayer, this.attackPlayer], false);
+		const protection = this.getFirstPlayerInQueue([this.protectionPlayer, attack], false);
+		// const protectionQueue = this.players.filter(player => ![this.protectionPlayer.id, attack.id].includes(player.id));
+		// protectionQueue.push(this.protectionPlayer)
+		// const [protection] = protectionQueue;
 
 		this.distribution([this.firstAttackInRound, ...this.players.filter(plr => plr.id !== this.firstAttackInRound.id)]);
 		this.nextRoundPlayers(attack, protection);
@@ -290,6 +310,10 @@ class Fool extends Game {
 		if(this.field.attack.length + cards.length > 6) {
 			throw new Error('THROW_MAX_ALLOWABLE_CARDS_ON_FILED')
 		}
+		// Нельзя подкинуть больше карт чем у игрока защиты в руке.
+		if(cards.length > this.protectionPlayer.hand.length) {
+			throw new Error('THROW_CARD_LIMIT_EXCEEDED');
+		}
 		// Кладём карты на стол.
 		this.field.putAttack(this.currentPlayer, cards);
 		// Передаём ход другому игроку
@@ -298,6 +322,8 @@ class Fool extends Game {
 		this.currentPlayer = this.protectionPlayer;
 		// Переводим защищающегося игрока в статус Pro
 		this.currentPlayer.setState(State.Protection);
+		// Проверяем окончание игры
+		this.gameOver();
 	}
 
 	/**
@@ -321,20 +347,30 @@ class Fool extends Game {
 	 */
 	strike() {
 		this.field.strike();
-		// Получаем игрока который первым ходил в этом раунде.
+		//Раздаём карты
 		const other = this.players.filter(player => player.id !== this.firstAttackInRound.id);
-		let next;
-		if(other.length > 1) {
-			// выбираем следующего игрока из но не того который защищался.
-			[next] = other.filter(player => player.id !== this.protectionPlayer.id);
-		} else {
-			// Если никого не осталось выбираем игрока который атаковал.
-			next = this.attackPlayer;
-		}
-
 		this.distribution([this.firstAttackInRound, ...other]);
-		this.nextRoundPlayers(this.protectionPlayer, next);
+
+		let attack = this.protectionPlayer;
+		// Проверяем руку защищающегося игрока
+		if(!this.protectionPlayer.hand.length) {
+			attack = this.getFirstPlayerInQueue([this.firstAttackInRound], false, other);
+		}
+		const protect = this.getFirstPlayerInQueue([attack], false);
+
+		this.gameOver();
+		this.nextRoundPlayers(attack, protect);
 		this.log('STRIIIIKE !')
+		this.round++;
+	}
+
+	deleteWinners() {
+		// Пока есть карты в колоде нельзя победить.
+		if(this.deck.cards.length) {
+			return;
+		}
+		// В игре остаются только игроки с картами в руках.
+		this.players = this.players.filter(player => player.hand.length);
 	}
 
 	/**
@@ -349,13 +385,13 @@ class Fool extends Game {
 		this.firstAttackInRound = this.currentPlayer; // Сохраняем его id как игрока который ходит первый в этом кругу.
 		this.protectionPlayer = protectionPlayer;
 		this.protectionPlayer.setState(State.Protection);
+		this.deleteWinners();
 		// Оставшиеся игроки ждут своей ход.
 		const filtered = this.players.filter(player => ![this.protectionPlayer.id, this.attackPlayer.id].includes(player.id)).map(({id}) => (id));
 		filtered.forEach(pId => {
 			const player = this.players.find(player => pId === player.id);
 			player.state = State.Wait;
 		});
-		this.round++;
 	}
 }
 

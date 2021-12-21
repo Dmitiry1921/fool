@@ -1,0 +1,214 @@
+{
+  "before": {
+    "players": [
+      {
+        "state": "wait",
+        "id": "f9wpuorhv1",
+        "name": "Валя",
+        "hand": []
+      },
+      {
+        "state": "protection",
+        "id": "35gqycgj8k",
+        "name": "Полина",
+        "hand": [
+          "S:8",
+          "D:K",
+          "D:A"
+        ]
+      },
+      {
+        "state": "wait",
+        "id": "1bbck97qa5",
+        "name": "Дима",
+        "hand": [
+          "S:6",
+          "C:8",
+          "D:8"
+        ]
+      },
+      {
+        "state": "wait",
+        "id": "cw91plxzc1",
+        "name": "Пени",
+        "hand": [
+          "H:8",
+          "H:10",
+          "C:Q",
+          "H:K",
+          "H:A"
+        ]
+      },
+      {
+        "state": "wait",
+        "id": "bsn5d6k2i5",
+        "name": "Стас",
+        "hand": [
+          "D:7",
+          "H:7",
+          "D:9",
+          "C:9",
+          "S:10",
+          "D:Q"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "f9wpuorhv1",
+    "_currentPlayerId": "35gqycgj8k",
+    "_attackPlayerId": "f9wpuorhv1",
+    "_protectionPlayerId": "35gqycgj8k",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [],
+      "size": 36,
+      "trump": "H"
+    },
+    "field": {
+      "attack": [
+        "C:K",
+        "S:Q",
+        "C:A"
+      ],
+      "protection": [
+        "H:Q",
+        "S:A"
+      ],
+      "discharge": [
+        {
+          "attack": [
+            "C:6",
+            "D:6",
+            "H:6"
+          ],
+          "protection": [
+            "C:10",
+            "D:10",
+            "H:J"
+          ]
+        },
+        {
+          "attack": [
+            "S:7",
+            "C:7",
+            "D:J",
+            "S:9"
+          ],
+          "protection": [
+            "S:J",
+            "C:J",
+            "H:9",
+            "S:K"
+          ]
+        }
+      ]
+    },
+    "round": 2
+  },
+  "command": "pass",
+  "args": [
+    [
+      "C:A"
+    ]
+  ],
+  "after": {
+    "players": [
+      {
+        "state": "wait",
+        "id": "35gqycgj8k",
+        "name": "Полина",
+        "hand": [
+          "S:8",
+          "D:K",
+          "D:A",
+          "C:K",
+          "S:Q",
+          "C:A",
+          "H:Q",
+          "S:A"
+        ]
+      },
+      {
+        "state": "attack",
+        "id": "1bbck97qa5",
+        "name": "Дима",
+        "hand": [
+          "S:6",
+          "C:8",
+          "D:8"
+        ]
+      },
+      {
+        "state": "protection",
+        "id": "cw91plxzc1",
+        "name": "Пени",
+        "hand": [
+          "H:8",
+          "H:10",
+          "C:Q",
+          "H:K",
+          "H:A"
+        ]
+      },
+      {
+        "state": "wait",
+        "id": "bsn5d6k2i5",
+        "name": "Стас",
+        "hand": [
+          "D:7",
+          "H:7",
+          "D:9",
+          "C:9",
+          "S:10",
+          "D:Q"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "1bbck97qa5",
+    "_currentPlayerId": "1bbck97qa5",
+    "_attackPlayerId": "1bbck97qa5",
+    "_protectionPlayerId": "cw91plxzc1",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [],
+      "size": 36,
+      "trump": "H"
+    },
+    "field": {
+      "attack": [],
+      "protection": [],
+      "discharge": [
+        {
+          "attack": [
+            "C:6",
+            "D:6",
+            "H:6"
+          ],
+          "protection": [
+            "C:10",
+            "D:10",
+            "H:J"
+          ]
+        },
+        {
+          "attack": [
+            "S:7",
+            "C:7",
+            "D:J",
+            "S:9"
+          ],
+          "protection": [
+            "S:J",
+            "C:J",
+            "H:9",
+            "S:K"
+          ]
+        }
+      ]
+    },
+    "round": 2
+  }
+}

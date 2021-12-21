@@ -1,0 +1,217 @@
+{
+  "before": {
+    "players": [
+      {
+        "state": "protection",
+        "id": "rwkipg3u61",
+        "name": "Полина",
+        "hand": [
+          "H:Q"
+        ]
+      },
+      {
+        "state": "wait",
+        "id": "c6xcgecght",
+        "name": "Дима",
+        "hand": [
+          "D:10",
+          "C:10",
+          "S:10",
+          "D:J",
+          "C:J",
+          "D:K"
+        ]
+      },
+      {
+        "state": "end",
+        "id": "sfjl1r17pk",
+        "name": "Пенелопа",
+        "hand": [
+          "H:J",
+          "H:A",
+          "C:A",
+          "D:A"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "sfjl1r17pk",
+    "_currentPlayerId": "rwkipg3u61",
+    "_attackPlayerId": "sfjl1r17pk",
+    "_protectionPlayerId": "rwkipg3u61",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [],
+      "size": 36,
+      "trump": "H"
+    },
+    "field": {
+      "attack": [
+        "S:9",
+        "C:9",
+        "H:9"
+      ],
+      "protection": [
+        "S:Q",
+        "H:10"
+      ],
+      "discharge": [
+        {
+          "attack": [
+            "S:6",
+            "C:6",
+            "D:7",
+            "C:7"
+          ],
+          "protection": [
+            "S:7",
+            "C:Q",
+            "D:Q",
+            "H:6"
+          ]
+        },
+        {
+          "attack": [
+            "D:6"
+          ],
+          "protection": [
+            "D:9"
+          ]
+        },
+        {
+          "attack": [
+            "S:J",
+            "C:K",
+            "S:8",
+            "C:8"
+          ],
+          "protection": [
+            "S:K",
+            "H:8",
+            "S:A",
+            "H:K"
+          ]
+        },
+        {
+          "attack": [
+            "D:8"
+          ],
+          "protection": [
+            "H:7"
+          ]
+        }
+      ]
+    },
+    "round": 12
+  },
+  "command": "hit",
+  "args": [
+    [
+      "H:Q"
+    ]
+  ],
+  "after": {
+    "players": [
+      {
+        "state": "attack",
+        "id": "c6xcgecght",
+        "name": "Дима",
+        "hand": [
+          "D:10",
+          "C:10",
+          "S:10",
+          "D:J",
+          "C:J",
+          "D:K"
+        ]
+      },
+      {
+        "state": "protection",
+        "id": "sfjl1r17pk",
+        "name": "Пенелопа",
+        "hand": [
+          "H:J",
+          "H:A",
+          "C:A",
+          "D:A"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "c6xcgecght",
+    "_currentPlayerId": "c6xcgecght",
+    "_attackPlayerId": "c6xcgecght",
+    "_protectionPlayerId": "sfjl1r17pk",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [],
+      "size": 36,
+      "trump": "H"
+    },
+    "field": {
+      "attack": [],
+      "protection": [],
+      "discharge": [
+        {
+          "attack": [
+            "S:6",
+            "C:6",
+            "D:7",
+            "C:7"
+          ],
+          "protection": [
+            "S:7",
+            "C:Q",
+            "D:Q",
+            "H:6"
+          ]
+        },
+        {
+          "attack": [
+            "D:6"
+          ],
+          "protection": [
+            "D:9"
+          ]
+        },
+        {
+          "attack": [
+            "S:J",
+            "C:K",
+            "S:8",
+            "C:8"
+          ],
+          "protection": [
+            "S:K",
+            "H:8",
+            "S:A",
+            "H:K"
+          ]
+        },
+        {
+          "attack": [
+            "D:8"
+          ],
+          "protection": [
+            "H:7"
+          ]
+        },
+        {
+          "attack": [
+            "S:9",
+            "C:9",
+            "H:9"
+          ],
+          "protection": [
+            "S:Q",
+            "H:10",
+            "H:Q"
+          ]
+        }
+      ]
+    },
+    "round": 13
+  }
+}

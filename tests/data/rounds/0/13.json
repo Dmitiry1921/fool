@@ -92,7 +92,7 @@
   "after": {
     "players": [
       {
-        "state": "wait",
+        "state": "protection",
         "id": "6ltddedi5z",
         "name": "Player1",
         "hand": [
@@ -118,7 +118,7 @@
         ]
       },
       {
-        "state": "protection",
+        "state": "wait",
         "id": "fznemhwlii",
         "name": "Player3",
         "hand": [
@@ -134,9 +134,10 @@
     "_firstAttackInRound": "jfg8vih577",
     "_currentPlayerId": "jfg8vih577",
     "_attackPlayerId": "jfg8vih577",
-    "_protectionPlayerId": "fznemhwlii",
+    "_protectionPlayerId": "6ltddedi5z",
     "minPlayers": 2,
     "maxPlayers": 8,
+    "maxAttackCards": 6,
     "deck": {
       "cards": [
         "S:10",

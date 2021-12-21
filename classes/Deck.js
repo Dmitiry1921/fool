@@ -5,7 +5,7 @@ const {random} = require('../utils/index');
 
 class Deck {
 	constructor(data) {
-		if(!Object.keys(Deck.sizes).includes(data.toString())) {
+		if (!Object.keys(Deck.sizes).includes(data.toString())) {
 			throw new Error('WRONG_DECK_SIZE');
 		}
 		this.cards = this.make(data);
@@ -17,16 +17,16 @@ class Deck {
 	 * Создаёт колоду указанного размера
 	 */
 	make(size) {
-		if(!this.cards) {
+		if (!this.cards) {
 			this.cards = [];
 		}
-		if(this.cards.length) {
+		if (this.cards.length) {
 			return this.cards;
 		}
 		const cards = [];
 		Deck.sizes[size].forEach((value) => {
 			Object.keys(Card.suits).map((suits) => {
-			    return cards.push(new Card(suits, value));
+				return cards.push(new Card(suits, value));
 			});
 		});
 
@@ -34,7 +34,7 @@ class Deck {
 	}
 
 	shuffle(array) {
-		for(let i=0; i<random(array.length * 4, array.length * 8); i++) {
+		for (let i = 0; i < random(array.length * 4, array.length * 8); i++) {
 			array.sort(() => 0.5 - Math.random());
 		}
 		return array;
@@ -45,7 +45,7 @@ class Deck {
 	 * @return {*}
 	 */
 	getTrump() {
-		if(this.trump) return this.trump;
+		if (this.trump) return this.trump;
 		return this.cards[random(0, this.size - 1)].suit;
 	}
 
@@ -55,6 +55,7 @@ class Deck {
 			cards: this.cards.map(card => card.toString()),
 		}
 	}
+
 	static load(data) {
 		const deck = new Deck(Object.keys(Deck.sizes)[0]); // Размер колоды тут не важен все равно перезапишем.
 		Object.assign(deck, {
@@ -63,7 +64,8 @@ class Deck {
 		});
 		return deck;
 	}
-	static get sizes () {
+
+	static get sizes() {
 		return {
 			// 52 карты (полная колода, от двоек до тузов)
 			52: ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'],
