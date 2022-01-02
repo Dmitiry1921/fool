@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #enemy-box {
+            display: flex;
+            justify-content: space-around;
+        }
+        .enemy {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+    <script>
+        function shortId(longId) {
+        	return longId.split('-')[0];
+        }
+		const SUITS = {
+			// C: '&#9827;', // clubs
+			// D: '&#9830;', // diamonds
+			// H: '&#9829;', // hearts
+			// S: '&#9824;', // spades
+			C: '<img src="./img/club.svg"/>', // club
+			D: '<img src="./img/diamond.svg"/>', // diamond
+			H: '<img src="./img/heart.svg"/>', // heart
+			S: '<img src="./img/spade.svg"/>', // spade
+		}
+		function getViewCard (card) {
+			return `${card.value}${SUITS[card.suit]}`;
+        }
+        function showEnemy(enemy) {
+			const enemyTemplate = document.querySelector('#enemy');
+			const enemyBox = document.getElementById('enemy-box');
+			enemyBox.innerHTML = ''; // Удаляем все элементы внутри.
+			enemy.forEach(player => {
+				const clone = enemyTemplate.content.cloneNode(true);
+				const divs = clone.querySelectorAll(".enemy-data");
+				divs[0].innerText = shortId(player.id);
+				divs[1].innerText = player.state;
+				divs[2].innerText = `Карт в руке: ${player.hand}`;
+				enemyBox.appendChild(clone);
+			});
+        }
+		let socket = new WebSocket("ws://localhost:5000/");
+		document.addEventListener('DOMContentLoaded', () => {
+			const cardsAttack = document.getElementById('card-attack');
+			const cardProtect = document.getElementById('card-protect');
+			const playerName = document.getElementById('player-name');
+			const playerState = document.getElementById('player-state');
+			const gameTrump = document.getElementById('game-trump');
+            const playerHand = document.getElementById('player-hand');
+            const roomId = document.getElementById('room-id');
+            const roomSize = document.getElementById('room-size');
+            const enemyCount = document.getElementById('enemy-count');
+            const error = document.getElementById('error');
+
+			const buttons = Array.apply(null, document.getElementsByClassName('button'));
+
+            /** ==== CLICK ==== */
+			function click(event) {
+				const options = Array.apply(null, playerHand.options);
+				const selected = options.reduce((acc, option) => {
+					if(option.selected) {
+						acc.push(option.value);
+					}
+					return acc;
+				}, []);
+                socket.send(JSON.stringify({type: 'command', data: {command: event.target.id, cards: selected}}));
+			}
+
+			buttons.forEach((button) => {
+				button.onclick = click;
+				button.disabled = true
+			})
+
+
+			socket.onopen = (e) => {
+				console.log("[open] Соединение установлено");
+				console.log("Отправляем данные на сервер");
+				// socket.send("Меня зовут Джон");
+			};
+
+			socket.onmessage = (event) => {
+				let type;
+				let data;
+				try {
+                   const parsed = JSON.parse(event.data);
+					type = parsed.type;
+					data = parsed.data;
+				} catch (err) {
+					console.error(event, err);
+                }
+				switch (type) {
+					// текущее игровое состояние
+					case 'ROOM_JOINED':
+						roomId.innerText = shortId(data.room.id);
+						roomSize.innerText = data.room.size;
+						showEnemy(data.clients)
+                    break;
+					case 'ROOM_WAIT':
+						// roomId.innerText = shortId(data.room.id);
+						// roomSize.innerText = data.room.size;
+						// console.log('ROOM_JOINED')
+                    break;
+					// текущее игровое состояние
+					case 'ERROR':
+						error.innerText = data.error;
+						setTimeout(() => {
+							error.innerText = '';
+						}, 450);
+                    break;
+					// текущее игровое состояние
+					case 'ROOM_STATE':
+						cardsAttack.innerHTML = data.field.attack.map(card => getViewCard(card)).join(' ');
+						cardProtect.innerHTML = data.field.protection.map(card => getViewCard(card)).join(' ');
+						gameTrump.innerHTML = SUITS[data.game.trump];
+						playerName.innerText = shortId(data.player.id);
+						playerState.innerText = data.player.state;
+						playerHand.innerHTML = ''; // Удаляем все элементы внутри.
+                        data.player.hand.forEach(card => {
+                            const option = document.createElement('option');
+                            option.value = `${card.suit}:${card.value}`;
+                            option.innerHTML = getViewCard(card);
+							playerHand.appendChild(option);
+                        });
+						showEnemy(data.game.players);
+						enemyCount.innerText = data.game.players.length;
+                        // Включаем доступные кнопки
+						buttons.forEach((button) => {
+							if(data.command.available.includes(button.id)){
+								button.disabled = false;
+								return;
+                            }
+							button.disabled = true
+						})
+						break;
+                    default:
+                        console.log(`[message] Данные получены с сервера: ${event.data}`);
+                        break;
+				}
+			};
+
+			socket.onclose = (event) => {
+				if (event.wasClean) {
+					console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
+				} else {
+					// например, сервер убил процесс или сеть недоступна
+					// обычно в этом случае event.code 1006
+					console.log('[close] Соединение прервано');
+				}
+			};
+
+			socket.onerror = (error) => {
+				console.log(`[error] ${error.message}`);
+			};
+		});
+    </script>
+</head>
+<body>
+<form action="#">
+    <fieldset>
+        <legend>Комната: [<span id="room-id"></span>] Число мест: [<span id="room-size"></span>]</legend>
+        <fieldset width="100px">
+            <legend>Противники: [<span id="enemy-count"></span>]</legend>
+            <div id="enemy-box">
+<!--                <div class="enemy">-->
+<!--                    <div>Игрок: []</div>-->
+<!--                    <div>State: []</div>-->
+<!--                    <div>Рука []</div>-->
+<!--                </div>-->
+<!--                <div class="enemy">-->
+<!--                    <div>Игрок: []</div>-->
+<!--                    <div>State: []</div>-->
+<!--                    <div>Рука []</div>-->
+<!--                </div>-->
+<!--                <div class="enemy">-->
+<!--                    <div>Игрок: []</div>-->
+<!--                    <div>State: []</div>-->
+<!--                    <div>Рука []</div>-->
+<!--                </div>-->
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Игровое поле</legend>
+            <div>Карты атаки: [<span id="card-attack"></span>]</div>
+            <div>Карты атаки: [<span id="card-protect"></span>]</div>
+            <div>Козырь: [<span id="game-trump"></span>]</div>
+        </fieldset>
+        <fieldset>
+            <legend>Карты в руке Игрока: [<span id="player-name"></span>]</legend>
+            <select multiple id="player-hand" style="width: 300px;height: 105px;"></select>
+        </fieldset>
+        <div style="margin-top: 5px">
+            <button class="button" id="attack">attack</button>
+            <button class="button" id="hit">hit</button>
+            <button class="button" id="end" >end</button>
+            <button class="button" id="throw">throw</button>
+            <button class="button" id="pass">pass</button>
+            <button class="button" id="debug">debug</button>
+            <div>State: <span id="player-state"></span></div>
+            <div style="color: red"><span id="error"></span></div>
+        </div>
+    </fieldset>
+</form>
+<template id="enemy">
+    <div class="enemy">
+        <div class="enemy-data">Игрок: []</div>
+        <div class="enemy-data">State: []</div>
+        <div class="enemy-data">Рука []</div>
+    </div>
+</template>
+</body>
+</html>

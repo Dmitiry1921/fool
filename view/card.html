@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Squada+One&display=swap" rel="stylesheet">
+    <link href="./css/card.css" rel="stylesheet">
+</head>
+<body>
+<style>
+    .table {
+        display: flex;
+    }
+</style>
+    <div class="table">
+        <div class="card club back">
+            <div class="filed left">
+                <div class="value"></div>
+                <div class="suite"></div>
+            </div>
+            <div class="center">
+                <div class="row r0">
+                    <div class="suite r0-0"></div>
+                    <div class="suite r0-1"></div>
+                </div>
+                <div class="row r1 merge">
+                    <div class="suite r1-0"></div>
+                </div>
+                <div class="row r2">
+                    <div class="suite r2-0"></div>
+                    <div class="suite r2-1"></div>
+                </div>
+                <div class="row r3 merge">
+                    <div class="suite r3-1"></div>
+                    <div class="suite r3-0"></div>
+                    <div class="suite r3-2"></div>
+                </div>
+                <div class="row r4">
+                    <div class="suite reverse r4-0"></div>
+                    <div class="suite reverse r4-1"></div>
+                </div>
+                <div class="row r5 merge">
+                    <div class="suite reverse r5-0"></div>
+                </div>
+                <div class="row r6">
+                    <div class="suite reverse r6-0"></div>
+                    <div class="suite reverse r6-1"></div>
+                </div>
+            </div>
+            <div class="filed right">
+                <div class="value reverse"></div>
+                <div class="suite reverse"></div>
+            </div>
+        </div>
+        <div class="card diamond v10" id="card1">
+            <div class="filed left">
+                <div class="value"></div>
+                <div class="suite"></div>
+            </div>
+            <div class="center">
+                <div class="row r0">
+                    <div class="suite r0-0"></div>
+                    <div class="suite r0-1"></div>
+                </div>
+                <div class="row r1 merge">
+                    <div class="suite r1-0"></div>
+                </div>
+                <div class="row r2">
+                    <div class="suite r2-0"></div>
+                    <div class="suite r2-1"></div>
+                </div>
+                <div class="row r3 merge">
+                    <div class="suite r3-1"></div>
+                    <div class="suite r3-0"></div>
+                    <div class="suite r3-2"></div>
+                </div>
+                <div class="row r4">
+                    <div class="suite reverse r4-0"></div>
+                    <div class="suite reverse r4-1"></div>
+                </div>
+                <div class="row r5 merge">
+                    <div class="suite reverse r5-0"></div>
+                </div>
+                <div class="row r6">
+                    <div class="suite reverse r6-0"></div>
+                    <div class="suite reverse r6-1"></div>
+                </div>
+            </div>
+            <div class="filed right">
+                <div class="value reverse"></div>
+                <div class="suite reverse"></div>
+            </div>
+        </div>
+        <div class="card heart vA" id="card2">
+            <div class="filed left">
+                <div class="value"></div>
+                <div class="suite"></div>
+            </div>
+            <div class="center">
+                <div class="row r0">
+                    <div class="suite r0-0"></div>
+                    <div class="suite r0-1"></div>
+                </div>
+                <div class="row r1 merge">
+                    <div class="suite r1-0"></div>
+                </div>
+                <div class="row r2">
+                    <div class="suite r2-0"></div>
+                    <div class="suite r2-1"></div>
+                </div>
+                <div class="row r3 merge">
+                    <div class="suite r3-1"></div>
+                    <div class="suite r3-0"></div>
+                    <div class="suite r3-2"></div>
+                </div>
+                <div class="row r4">
+                    <div class="suite reverse r4-0"></div>
+                    <div class="suite reverse r4-1"></div>
+                </div>
+                <div class="row r5 merge">
+                    <div class="suite reverse r5-0"></div>
+                </div>
+                <div class="row r6">
+                    <div class="suite reverse r6-0"></div>
+                    <div class="suite reverse r6-1"></div>
+                </div>
+            </div>
+            <div class="filed right">
+                <div class="value reverse"></div>
+                <div class="suite reverse"></div>
+            </div>
+        </div>
+        <div class="card spade v10" id="card3">
+            <div class="filed left">
+                <div class="value"></div>
+                <div class="suite"></div>
+            </div>
+            <div class="center">
+                <div class="row r0">
+                    <div class="suite r0-0"></div>
+                    <div class="suite r0-1"></div>
+                </div>
+                <div class="row r1 merge">
+                    <div class="suite r1-0"></div>
+                </div>
+                <div class="row r2">
+                    <div class="suite r2-0"></div>
+                    <div class="suite r2-1"></div>
+                </div>
+                <div class="row r3 merge">
+                    <div class="suite r3-1"></div>
+                    <div class="suite r3-0"></div>
+                    <div class="suite r3-2"></div>
+                </div>
+                <div class="row r4">
+                    <div class="suite reverse r4-0"></div>
+                    <div class="suite reverse r4-1"></div>
+                </div>
+                <div class="row r5 merge">
+                    <div class="suite reverse r5-0"></div>
+                </div>
+                <div class="row r6">
+                    <div class="suite reverse r6-0"></div>
+                    <div class="suite reverse r6-1"></div>
+                </div>
+            </div>
+            <div class="filed right">
+                <div class="value reverse"></div>
+                <div class="suite reverse"></div>
+            </div>
+        </div>
+    </div>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+        const card0 = document.getElementById('card0');
+        const card1 = document.getElementById('card1');
+        const card2 = document.getElementById('card2');
+        const card3 = document.getElementById('card3');
+
+        const arr = ['2','3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+		function random(min, max) {
+			return Math.floor(Math.random() * (max - min) ) + min;
+		}
+        function removeAllClass(elem) {
+			arr.forEach(cl => {
+				elem.classList.remove(`v${cl}`);
+            })
+        }
+        // setInterval(() => {
+		// 	removeAllClass(card0);
+		// 	removeAllClass(card1);
+		// 	removeAllClass(card2);
+		// 	removeAllClass(card3);
+		// 	console.log(random(0, arr.length - 1))
+		// 	card0.classList.add(`v${arr[random(0, arr.length - 1)]}`);
+		// 	card1.classList.add(`v${arr[random(0, arr.length - 1)]}`);
+		// 	card2.classList.add(`v${arr[random(0, arr.length - 1)]}`);
+		// 	card3.classList.add(`v${arr[random(0, arr.length - 1)]}`);
+        // }, 300);
+    });
+</script>
+</body>
+</html>

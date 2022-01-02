@@ -1,0 +1,155 @@
+{
+  "before": {
+    "players": [
+      {
+        "state": "throw",
+        "id": "33ee26f2-762f-4088-970e-e9ea26ad8cf7",
+        "name": "Дмитрий",
+        "hand": [
+          "D:7",
+          "D:8",
+          "D:10",
+          "D:Q",
+          "C:A"
+        ]
+      },
+      {
+        "state": "protection",
+        "id": "b4461171-9cc9-4a83-9871-c1d5313f485b",
+        "name": "Ваня",
+        "hand": [
+          "C:6",
+          "C:7",
+          "H:9",
+          "H:Q",
+          "S:K",
+          "D:A"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "33ee26f2-762f-4088-970e-e9ea26ad8cf7",
+    "_currentPlayerId": "b4461171-9cc9-4a83-9871-c1d5313f485b",
+    "_attackPlayerId": "33ee26f2-762f-4088-970e-e9ea26ad8cf7",
+    "_protectionPlayerId": "b4461171-9cc9-4a83-9871-c1d5313f485b",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [
+        "H:7",
+        "H:K",
+        "H:10",
+        "D:K",
+        "D:6",
+        "D:9",
+        "H:J",
+        "H:8",
+        "S:A",
+        "S:J",
+        "S:Q",
+        "C:8",
+        "D:J",
+        "H:A",
+        "C:Q",
+        "H:6",
+        "S:6",
+        "S:10",
+        "S:9",
+        "C:9",
+        "C:10",
+        "S:7",
+        "C:J",
+        "C:K"
+      ],
+      "size": 36,
+      "trump": "D"
+    },
+    "field": {
+      "attack": [
+        "S:8"
+      ],
+      "protection": [],
+      "discharge": []
+    },
+    "round": 0
+  },
+  "command": "pass",
+  "args": [
+    [
+      "/PASS"
+    ]
+  ],
+  "after": {
+    "players": [
+      {
+        "state": "protection",
+        "id": "33ee26f2-762f-4088-970e-e9ea26ad8cf7",
+        "name": "Дмитрий",
+        "hand": [
+          "D:7",
+          "D:8",
+          "D:10",
+          "D:Q",
+          "C:A",
+          "H:7"
+        ]
+      },
+      {
+        "state": "attack",
+        "id": "b4461171-9cc9-4a83-9871-c1d5313f485b",
+        "name": "Ваня",
+        "hand": [
+          "C:6",
+          "C:7",
+          "H:9",
+          "H:Q",
+          "S:K",
+          "D:A",
+          "S:8"
+        ]
+      }
+    ],
+    "_firstAttackInRound": "b4461171-9cc9-4a83-9871-c1d5313f485b",
+    "_currentPlayerId": "b4461171-9cc9-4a83-9871-c1d5313f485b",
+    "_attackPlayerId": "b4461171-9cc9-4a83-9871-c1d5313f485b",
+    "_protectionPlayerId": "33ee26f2-762f-4088-970e-e9ea26ad8cf7",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "maxAttackCards": 6,
+    "deck": {
+      "cards": [
+        "H:K",
+        "H:10",
+        "D:K",
+        "D:6",
+        "D:9",
+        "H:J",
+        "H:8",
+        "S:A",
+        "S:J",
+        "S:Q",
+        "C:8",
+        "D:J",
+        "H:A",
+        "C:Q",
+        "H:6",
+        "S:6",
+        "S:10",
+        "S:9",
+        "C:9",
+        "C:10",
+        "S:7",
+        "C:J",
+        "C:K"
+      ],
+      "size": 36,
+      "trump": "D"
+    },
+    "field": {
+      "attack": [],
+      "protection": [],
+      "discharge": []
+    },
+    "round": 0
+  }
+}

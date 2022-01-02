@@ -234,6 +234,15 @@ describe('Testing Fool with 36 card and 3 Players', () => {
 				assert.deepStrictEqual(game, Fool.load(testData.after));
 				// assert.deepStrictEqual(testData.after, testData.before);
 		});
+		it('#32', () => {
+				const testData = getTestData(0, 32);
+				const game = loadGame(testData);
+				game[testData.command](...testData.args);
+				game._debug = true;
+				game.log();
+				assert.deepStrictEqual(game, Fool.load(testData.after));
+				assert.deepStrictEqual(testData.after, testData.before);
+		});
 		// it('#<>', () => {
 		// 	const testData = getTestData(0, 12);
 		// 	const game = loadGame(testData);

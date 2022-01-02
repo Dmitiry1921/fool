@@ -10,8 +10,8 @@ class Card {
 		if(!Card.values.includes(value)) {
 			throw new Error('WRONG_VALUE_CARD');
 		}
-		this.suit = String(suit);
-		this.value = String(value);
+		this.suit = String(suit); // масть
+		this.value = String(value); // значение
 
 		this.seniority = cardSeniority.get(String(value));
 	}

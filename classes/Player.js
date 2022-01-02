@@ -1,9 +1,9 @@
 'use strict';
 
+const {v4: uuidv4} = require('uuid');
+
 const Card = require('./Card');
-const {State} = require('./PlayerState');
 const {PlayerState} = require('./PlayerState');
-const {getRandomCharFromAlphabet} = require('../utils/index');
 
 class Player extends PlayerState {
 	constructor(params) {
@@ -18,7 +18,7 @@ class Player extends PlayerState {
 			})
 			return;
 		}
-		this.id = this.getId();
+		this.id = `Player:${uuidv4()}`;
 		this.name = params.name; // Имя игрока
 		this.hand = []; // Конечно же у игрока есть "Рука", только 1 ахаха аха
 	}
@@ -30,13 +30,16 @@ class Player extends PlayerState {
 		}
 	}
 
-	getId () {
-		let id = '';
-		const words = 'abcdefghijklmnopqrstuvwxyz1234567890';
-		for(let i=0; i<10; i++) {
-			id += getRandomCharFromAlphabet(words.split(''));
-		}
-		return id;
+	/**
+	 * Возвращает публичную информацию доступную всем игрокам.
+	 * @return {{name: string, state, hand: ([]|*)}}
+	 */
+	getPublicInfo() {
+		return {
+			id: this.id,
+			hand: this.hand.length,
+			state: this.state,
+		};
 	}
 
 	/**

@@ -2,7 +2,7 @@
 
 const Game = require("./Game");
 const Field = require("./Field");
-const {State} = require("./PlayerState");
+const {State, Command} = require("./PlayerState");
 const Player = require('./Player');
 const Deck = require('./Deck');
 const Card = require('./Card');
@@ -182,167 +182,6 @@ class Fool extends Game {
 	}
 
 	/**
-	 * Ход игрока, игрок выкладывает карты на поле.
-	 */
-	attack(data = []) {
-		if(this.field.attack.length) {
-			throw new Error('ATTACK_UNAVAILABLE');
-		}
-		const cards = data.map(item => Card.getByString(item));
-		if(!cards.length) {
-			throw new Error('ATTACK_NO_CARD');
-		}
-		// Кол-во переданных карт не может превышать чисто карт в руке у защиты.
-		if(cards.length > this.protectionPlayer.hand.length) {
-			throw new Error('ATTACK_PROTECTION_PLAYER_HAVE_LESS_CARD')
-		}
-		// Все карты должны быть одного значения
-		if(cards.some(card => card.value !== cards[0].value)) {
-			throw new Error('ATTACK_SUIT_NOT_EQUALS');
-		}
-		//Указанные карты должны быть в руке у игрока.
-		if(!Player.cardsInHand(this.currentPlayer, cards)) {
-			throw new Error('ATTACK_CARD_NOT_IN_HAND');
-		}
-		// Кладём карты на стол.
-		this.field.putAttack(this.currentPlayer, cards);
-		// Передаём ход другому игроку
-		this.currentPlayer.setState(State.Throw);
-		// Передаем ход стороне защиты.
-		this.currentPlayer = this.protectionPlayer;
-		// Проверяем окончание игры
-		this.gameOver();
-	}
-
-	/**
-	 * Бьёт текущие карты на поле
-	 */
-	hit(data) {
-		if(!this.field.attack.length) {
-			throw new Error('HIT_UNAVAILABLE');
-		}
-		if(this.field.attack.length === this.field.protection.length) {
-			throw new Error('HIT_UNAVAILABLE');
-		}
-		if(!data || !data.length) {
-			throw new Error('HIT_NO_CARD');
-		}
-		const cards = data.map(item => Card.getByString(item));
-		// кол-во переданных карт должно быть равно кол-ву карт на столе
-		if(cards.length !== (this.field.attack.length - this.field.protection.length)) {
-			throw new Error('HIT_CARD_COUNT_NOT_EQUAL_FIELD_COUNT');
-		}
-		// Переданные карты должны находится у игрока в руке.
-		if(!Player.cardsInHand(this.currentPlayer, cards)) {
-			throw new Error('HIT_CARD_NOT_IN_HAND');
-		}
-		// Карты могут быть побиты в том случае если все переданные карты той же масти но старше по значению или могут быть побиты козырем.
-		[...this.field.protection, ...cards].forEach((card, index) => {
-			if(!Card.isOlderCard(this.field.attack[index], card, this.deck.trump)) {
-				throw new Error('HIT_CANT_FIGHT');
-			}
-		});
-		this.field.putProtection(this.currentPlayer, cards);
-		if(this.field.isStrike(this.maxAttackCards) || this.currentPlayer.hand.length === 0){
-			this.strike();
-			return;
-		}
-		this.currentPlayer.setState(State.Wait);
-		const thrower = this.getThrowPlayer(this.attackPlayer);
-		if(!thrower) {
-			// Некому подкидывать, БИТО!
-			this.strike();
-			return;
-		}
-		// Передаем ход атакующей стороне.
-		this.currentPlayer = thrower;
-	}
-
-	/**
-	 * Игрок пасует, пропускает ход, берёт карты.
-	 */
-	pass() {
-		if(!this.field.attack.length) {
-			throw new Error('PASS_UNAVAILABLE')
-		}
-		// Игрок который не смог побить карты забирает все карты с поля в руку.
-		this.currentPlayer.hand.push(...this.field.getAllInOne());
-		this.field.clear(); // Очищаем игровое поле
-		// const attackQueue = this.players.filter(player => ![this.currentPlayer.id, this.attackPlayer.id].includes(player.id));
-		// attackQueue.push(this.attackPlayer)
-		// const [attack] = attackQueue;
-		const attack = this.getFirstPlayerInQueue([this.currentPlayer, this.attackPlayer], false);
-		const protection = this.getFirstPlayerInQueue([this.protectionPlayer, attack], false);
-		// const protectionQueue = this.players.filter(player => ![this.protectionPlayer.id, attack.id].includes(player.id));
-		// protectionQueue.push(this.protectionPlayer)
-		// const [protection] = protectionQueue;
-
-		this.distribution([this.firstAttackInRound, ...this.players.filter(plr => plr.id !== this.firstAttackInRound.id)]);
-		this.nextRoundPlayers(attack, protection);
-	}
-
-	/**
-	 * Игрок подкидывает карты на поле
-	 * Подкидывать можно до 6 карт
-	 */
-	throw(data) {
-		const allCardsOnField = this.field.getAllInOne();
-		if(!allCardsOnField.length) {
-			throw new Error('THROW_UNAVAILABLE');
-		}
-		if(!data || !data.length) {
-			throw new Error('THROW_WRONG_CARD');
-		}
-		if(this.field.attack.length !== this.field.protection.length) {
-			throw new Error('THROW_ALL_ATTACK_CARDS_SHOULD_BE_PROTECTION')
-		}
-		const cards = data.map(item => Card.getByString(item));
-		const values = this.field.getValuesCards();
-		//Указанные карты должны быть в руке у игрока.
-		if(!Player.cardsInHand(this.currentPlayer, cards)) {
-			throw new Error('ATTACK_CARD_NOT_IN_HAND');
-		}
-		if(cards.some(card => !values.includes(card.value))) {
-			throw new Error('THROW_UNAVAILABLE_VALUE_CARD');
-		}
-		// Сумма подкинутых карты и карт на столе не должны быть больше 6ти
-		// TODO: в первый ход вообще 5.
-		if(this.field.attack.length + cards.length > 6) {
-			throw new Error('THROW_MAX_ALLOWABLE_CARDS_ON_FILED')
-		}
-		// Нельзя подкинуть больше карт чем у игрока защиты в руке.
-		if(cards.length > this.protectionPlayer.hand.length) {
-			throw new Error('THROW_CARD_LIMIT_EXCEEDED');
-		}
-		// Кладём карты на стол.
-		this.field.putAttack(this.currentPlayer, cards);
-		// Передаём ход другому игроку
-		this.currentPlayer.setState(State.Wait);
-		// Передаем ход стороне защиты.
-		this.currentPlayer = this.protectionPlayer;
-		// Переводим защищающегося игрока в статус Pro
-		this.currentPlayer.setState(State.Protection);
-		// Проверяем окончание игры
-		this.gameOver();
-	}
-
-	/**
-	 * Закончить свой ход. Передаёт право подкидывать другому игроку.
-	 * Игрок пасует, пропускает ход, берёт карты.
-	 */
-	end() {
-		this.currentPlayer.setState(State.End); // Игрок сообщает о том что он закончил свой ход.
-		// Получаем первого игрока который ждем возможности пойти и не является игроком защиты в данный момент.
-		const filtered = this.players.filter(player => player.state === State.Wait && this.protectionPlayer.id !== player.id);
-		if(!filtered.length) {
-			this.strike(); // БИТО!
-			return;
-		}
-		this.currentPlayer = filtered[0];
-		this.currentPlayer.setState(State.Throw);
-	}
-
-	/**
 	 * Бито!
 	 */
 	strike() {
@@ -392,6 +231,167 @@ class Fool extends Game {
 			const player = this.players.find(player => pId === player.id);
 			player.state = State.Wait;
 		});
+	}
+
+	/**
+	 * Ход игрока, игрок выкладывает карты на поле.
+	 */
+	[Command.Attack](data = []) {
+		if(this.field.attack.length) {
+			throw new Error('ATTACK_UNAVAILABLE');
+		}
+		const cards = data.map(item => Card.getByString(item));
+		if(!cards.length) {
+			throw new Error('ATTACK_NO_CARD');
+		}
+		// Кол-во переданных карт не может превышать чисто карт в руке у защиты.
+		if(cards.length > this.protectionPlayer.hand.length) {
+			throw new Error('ATTACK_PROTECTION_PLAYER_HAVE_LESS_CARD')
+		}
+		// Все карты должны быть одного значения
+		if(cards.some(card => card.value !== cards[0].value)) {
+			throw new Error('ATTACK_SUIT_NOT_EQUALS');
+		}
+		//Указанные карты должны быть в руке у игрока.
+		if(!Player.cardsInHand(this.currentPlayer, cards)) {
+			throw new Error('ATTACK_CARD_NOT_IN_HAND');
+		}
+		// Кладём карты на стол.
+		this.field.putAttack(this.currentPlayer, cards);
+		// Передаём ход другому игроку
+		this.currentPlayer.setState(State.Throw);
+		// Передаем ход стороне защиты.
+		this.currentPlayer = this.protectionPlayer;
+		// Проверяем окончание игры
+		this.gameOver();
+	}
+
+	/**
+	 * Бьёт текущие карты на поле
+	 */
+	[Command.Hit](data) {
+		if(!this.field.attack.length) {
+			throw new Error('HIT_UNAVAILABLE');
+		}
+		if(this.field.attack.length === this.field.protection.length) {
+			throw new Error('HIT_UNAVAILABLE');
+		}
+		if(!data || !data.length) {
+			throw new Error('HIT_NO_CARD');
+		}
+		const cards = data.map(item => Card.getByString(item));
+		// кол-во переданных карт должно быть равно кол-ву карт на столе
+		if(cards.length !== (this.field.attack.length - this.field.protection.length)) {
+			throw new Error('HIT_CARD_COUNT_NOT_EQUAL_FIELD_COUNT');
+		}
+		// Переданные карты должны находится у игрока в руке.
+		if(!Player.cardsInHand(this.currentPlayer, cards)) {
+			throw new Error('HIT_CARD_NOT_IN_HAND');
+		}
+		// Карты могут быть побиты в том случае если все переданные карты той же масти но старше по значению или могут быть побиты козырем.
+		[...this.field.protection, ...cards].forEach((card, index) => {
+			if(!Card.isOlderCard(this.field.attack[index], card, this.deck.trump)) {
+				throw new Error('HIT_CANT_FIGHT');
+			}
+		});
+		this.field.putProtection(this.currentPlayer, cards);
+		if(this.field.isStrike(this.maxAttackCards) || this.currentPlayer.hand.length === 0){
+			this.strike();
+			return;
+		}
+		this.currentPlayer.setState(State.Wait);
+		const thrower = this.getThrowPlayer(this.attackPlayer);
+		if(!thrower) {
+			// Некому подкидывать, БИТО!
+			this.strike();
+			return;
+		}
+		// Передаем ход атакующей стороне.
+		this.currentPlayer = thrower;
+	}
+
+	/**
+	 * Игрок пасует, пропускает ход, берёт карты.
+	 */
+	[Command.Pass]() {
+		if(!this.field.attack.length) {
+			throw new Error('PASS_UNAVAILABLE')
+		}
+		// Игрок который не смог побить карты забирает все карты с поля в руку.
+		this.currentPlayer.hand.push(...this.field.getAllInOne());
+		this.field.clear(); // Очищаем игровое поле
+		// const attackQueue = this.players.filter(player => ![this.currentPlayer.id, this.attackPlayer.id].includes(player.id));
+		// attackQueue.push(this.attackPlayer)
+		// const [attack] = attackQueue;
+		const attack = this.getFirstPlayerInQueue([this.currentPlayer, this.attackPlayer], false);
+		const protection = this.getFirstPlayerInQueue([this.protectionPlayer, attack], false);
+		// const protectionQueue = this.players.filter(player => ![this.protectionPlayer.id, attack.id].includes(player.id));
+		// protectionQueue.push(this.protectionPlayer)
+		// const [protection] = protectionQueue;
+
+		this.distribution([this.firstAttackInRound, ...this.players.filter(plr => plr.id !== this.firstAttackInRound.id)]);
+		this.nextRoundPlayers(attack, protection);
+	}
+
+	/**
+	 * Игрок подкидывает карты на поле
+	 * Подкидывать можно до 6 карт
+	 */
+	[Command.Throw](data) {
+		const allCardsOnField = this.field.getAllInOne();
+		if(!allCardsOnField.length) {
+			throw new Error('THROW_UNAVAILABLE');
+		}
+		if(!data || !data.length) {
+			throw new Error('THROW_WRONG_CARD');
+		}
+		if(this.field.attack.length !== this.field.protection.length) {
+			throw new Error('THROW_ALL_ATTACK_CARDS_SHOULD_BE_PROTECTION')
+		}
+		const cards = data.map(item => Card.getByString(item));
+		const values = this.field.getValuesCards();
+		//Указанные карты должны быть в руке у игрока.
+		if(!Player.cardsInHand(this.currentPlayer, cards)) {
+			throw new Error('ATTACK_CARD_NOT_IN_HAND');
+		}
+		if(cards.some(card => !values.includes(card.value))) {
+			throw new Error('THROW_UNAVAILABLE_VALUE_CARD');
+		}
+		// Сумма подкинутых карты и карт на столе не должны быть больше 6ти
+		// TODO: в первый ход вообще 5.
+		if(this.field.attack.length + cards.length > 6) {
+			throw new Error('THROW_MAX_ALLOWABLE_CARDS_ON_FILED')
+		}
+		// Нельзя подкинуть больше карт чем у игрока защиты в руке.
+		if(cards.length > this.protectionPlayer.hand.length) {
+			throw new Error('THROW_CARD_LIMIT_EXCEEDED');
+		}
+		// Кладём карты на стол.
+		this.field.putAttack(this.currentPlayer, cards);
+		// Передаём ход другому игроку
+		this.currentPlayer.setState(State.Wait);
+		// Передаем ход стороне защиты.
+		this.currentPlayer = this.protectionPlayer;
+		// Переводим защищающегося игрока в статус Pro
+		this.currentPlayer.setState(State.Protection);
+		// Проверяем окончание игры
+		this.gameOver();
+	}
+
+	/**
+	 * Закончить свой ход. Передаёт право подкидывать другому игроку.
+	 * Игрок пасует, пропускает ход, берёт карты.
+	 */
+	[Command.End]() {
+		this.currentPlayer.setState(State.End); // Игрок сообщает о том что он закончил свой ход.
+		// Получаем первого игрока который ждем возможности пойти и не является игроком защиты в данный момент.
+		const filtered = this.players.filter(player => player.state === State.Wait && this.protectionPlayer.id !== player.id);
+		if(!filtered.length) {
+			this.strike(); // БИТО!
+			return;
+		}
+		this.currentPlayer = filtered[0];
+		this.currentPlayer.setState(State.Throw);
 	}
 }
 

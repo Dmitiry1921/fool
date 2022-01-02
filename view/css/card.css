@@ -1,0 +1,542 @@
+/* latin */
+@font-face {
+  font-family: 'Squada One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/Squada_One.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+.card {
+  font-family: 'Squada One', cursive;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 5px 0;
+  z-index: 1;
+  height: 315px;
+  background: #fff;
+  /*===== VALUES ======*/
+}
+.card .suite {
+  width: 50px;
+  height: 55px;
+  margin: 7px;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  text-align: center;
+  line-height: 55px;
+}
+.card .suite.r3-1 {
+  margin-left: -35px;
+}
+.card .suite.r3-2 {
+  margin-right: -35px;
+}
+.card .value {
+  font-size: 35px;
+  text-align: center;
+}
+.card.diamond .value,
+.card.heart .value {
+  color: #de1a1f;
+}
+.card .filed {
+  display: flex;
+  flex-direction: column;
+}
+.card .filed.right {
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+}
+.card .filed .suite {
+  width: 25px;
+  height: 25px;
+  margin: 3px;
+}
+.card.club .suite {
+  background: url("../img/club.svg");
+}
+.card.diamond .suite {
+  background: url("../img/diamond.svg");
+}
+.card.heart .suite {
+  background: url("../img/heart.svg");
+}
+.card.spade .suite {
+  background: url("../img/spade.svg");
+}
+.card .center {
+  display: flex;
+  flex-direction: column;
+}
+.card .center .row {
+  display: flex;
+  justify-content: center;
+}
+.card .center .row.merge {
+  margin: -30px 7px;
+}
+.card .reverse {
+  transform: rotate(180deg);
+  transform-origin: center center;
+}
+.card.back .r0-0 {
+  background: none;
+}
+.card.back .r0-1 {
+  background: none;
+}
+.card.back .r1-0 {
+  background: url("../img/diamond.svg");
+}
+.card.back .r2-0 {
+  transform: rotate(315deg);
+  transform-origin: center center;
+}
+.card.back .r2-1 {
+  background: url("../img/spade.svg");
+  transform: rotate(45deg);
+  transform-origin: center center;
+}
+.card.back .r3-0 {
+  background: none;
+}
+.card.back .r3-1 {
+  background: url("../img/heart.svg");
+  transform: rotate(270deg);
+  transform-origin: center center;
+}
+.card.back .r3-2 {
+  background: url("../img/heart.svg");
+  transform: rotate(90deg);
+  transform-origin: center center;
+}
+.card.back .r4-0 {
+  background: url("../img/spade.svg");
+  transform: rotate(225deg);
+  transform-origin: center center;
+}
+.card.back .r4-1 {
+  transform: rotate(135deg);
+  transform-origin: center center;
+}
+.card.back .r5-0 {
+  background: url("../img/diamond.svg");
+}
+.card.back .r6-0 {
+  background: none;
+}
+.card.back .r6-1 {
+  background: none;
+}
+.card.back .filed .suite {
+  background: none;
+}
+.card.back .filed .value {
+  display: none;
+}
+.card.v2 .r0-0 {
+  background: none;
+}
+.card.v2 .r0-1 {
+  background: none;
+}
+.card.v2 .r2-0 {
+  background: none;
+}
+.card.v2 .r2-1 {
+  background: none;
+}
+.card.v2 .r3-0 {
+  background: none;
+}
+.card.v2 .r3-1 {
+  background: none;
+}
+.card.v2 .r3-2 {
+  background: none;
+}
+.card.v2 .r4-0 {
+  background: none;
+}
+.card.v2 .r4-1 {
+  background: none;
+}
+.card.v2 .r6-0 {
+  background: none;
+}
+.card.v2 .r6-1 {
+  background: none;
+}
+.card.v2 .filed .value::after {
+  content: '2';
+  visibility: visible;
+}
+.card.v3 .r0-0 {
+  background: none;
+}
+.card.v3 .r0-1 {
+  background: none;
+}
+.card.v3 .r2-0 {
+  background: none;
+}
+.card.v3 .r2-1 {
+  background: none;
+}
+.card.v3 .r3-1 {
+  background: none;
+}
+.card.v3 .r3-2 {
+  background: none;
+}
+.card.v3 .r4-0 {
+  background: none;
+}
+.card.v3 .r4-1 {
+  background: none;
+}
+.card.v3 .r6-0 {
+  background: none;
+}
+.card.v3 .r6-1 {
+  background: none;
+}
+.card.v3 .filed .value::after {
+  content: '3';
+  visibility: visible;
+}
+.card.v4 .r0-0 {
+  background: none;
+}
+.card.v4 .r0-1 {
+  background: none;
+}
+.card.v4 .r2-1 {
+  background: none;
+}
+.card.v4 .r3-0 {
+  background: none;
+}
+.card.v4 .r3-1 {
+  background: none;
+}
+.card.v4 .r3-2 {
+  background: none;
+}
+.card.v4 .r4-0 {
+  background: none;
+}
+.card.v4 .r6-0 {
+  background: none;
+}
+.card.v4 .r6-1 {
+  background: none;
+}
+.card.v4 .filed .value::after {
+  content: '4';
+  visibility: visible;
+}
+.card.v5 .r0-0 {
+  background: none;
+}
+.card.v5 .r0-1 {
+  background: none;
+}
+.card.v5 .r2-1 {
+  background: none;
+}
+.card.v5 .r3-1 {
+  background: none;
+}
+.card.v5 .r3-2 {
+  background: none;
+}
+.card.v5 .r4-0 {
+  background: none;
+}
+.card.v5 .r6-0 {
+  background: none;
+}
+.card.v5 .r6-1 {
+  background: none;
+}
+.card.v5 .filed .value::after {
+  content: '5';
+  visibility: visible;
+}
+.card.v6 .r0-0 {
+  background: none;
+}
+.card.v6 .r0-1 {
+  background: none;
+}
+.card.v6 .r3-0 {
+  background: none;
+}
+.card.v6 .r3-1 {
+  background: none;
+}
+.card.v6 .r3-2 {
+  background: none;
+}
+.card.v6 .r6-0 {
+  background: none;
+}
+.card.v6 .r6-1 {
+  background: none;
+}
+.card.v6 .filed .value::after {
+  content: '6';
+  visibility: visible;
+}
+.card.v7 .r0-0 {
+  background: none;
+}
+.card.v7 .r2-0 {
+  background: none;
+}
+.card.v7 .r3-1 {
+  background: none;
+}
+.card.v7 .r3-2 {
+  background: none;
+}
+.card.v7 .r4-1 {
+  background: none;
+}
+.card.v7 .r6-1 {
+  background: none;
+}
+.card.v7 .filed .value::after {
+  content: '7';
+  visibility: visible;
+}
+.card.v8 .r2-1 {
+  background: none;
+}
+.card.v8 .r3-0 {
+  background: none;
+}
+.card.v8 .r3-1 {
+  background: none;
+}
+.card.v8 .r3-2 {
+  background: none;
+}
+.card.v8 .r4-0 {
+  background: none;
+}
+.card.v8 .filed .value::after {
+  content: '8';
+  visibility: visible;
+}
+.card.v9 .r2-1 {
+  background: none;
+}
+.card.v9 .r3-1 {
+  background: none;
+}
+.card.v9 .r3-2 {
+  background: none;
+}
+.card.v9 .r4-0 {
+  background: none;
+}
+.card.v9 .filed .value::after {
+  content: '9';
+  visibility: visible;
+}
+.card.v10 .r3-0 {
+  background: none;
+}
+.card.v10 .r3-1 {
+  background: none;
+}
+.card.v10 .r3-2 {
+  background: none;
+}
+.card.v10 .filed .value::after {
+  content: '10';
+  visibility: visible;
+}
+.card.vJ .r0-0 {
+  background: none;
+}
+.card.vJ .r0-1 {
+  background: none;
+}
+.card.vJ .r1-0 {
+  background: none;
+}
+.card.vJ .r2-0 {
+  background: none;
+}
+.card.vJ .r2-1 {
+  background: none;
+}
+.card.vJ .r3-1 {
+  background: none;
+}
+.card.vJ .r3-2 {
+  background: none;
+}
+.card.vJ .r4-0 {
+  background: none;
+}
+.card.vJ .r4-1 {
+  background: none;
+}
+.card.vJ .r5-0 {
+  background: none;
+}
+.card.vJ .r6-0 {
+  background: none;
+}
+.card.vJ .r6-1 {
+  background: none;
+}
+.card.vJ .filed .value::after {
+  content: 'J';
+  visibility: visible;
+}
+.card.vQ .r0-0 {
+  background: none;
+}
+.card.vQ .r0-1 {
+  background: none;
+}
+.card.vQ .r1-0 {
+  background: none;
+}
+.card.vQ .r2-0 {
+  transform: rotate(315deg);
+  transform-origin: center center;
+}
+.card.vQ .r2-1 {
+  transform: rotate(45deg);
+  transform-origin: center center;
+}
+.card.vQ .r3-0 {
+  background: none;
+}
+.card.vQ .r3-1 {
+  background: none;
+}
+.card.vQ .r3-2 {
+  background: none;
+}
+.card.vQ .r4-0 {
+  transform: rotate(225deg);
+  transform-origin: center center;
+}
+.card.vQ .r4-1 {
+  transform: rotate(135deg);
+  transform-origin: center center;
+}
+.card.vQ .r5-0 {
+  background: none;
+}
+.card.vQ .r6-0 {
+  background: none;
+}
+.card.vQ .r6-1 {
+  background: none;
+}
+.card.vQ .filed .value::after {
+  content: 'Q';
+  visibility: visible;
+}
+.card.vK .r0-0 {
+  background: none;
+}
+.card.vK .r0-1 {
+  background: none;
+}
+.card.vK .r2-0 {
+  background: none;
+}
+.card.vK .r2-1 {
+  background: none;
+}
+.card.vK .r3-1 {
+  transform: rotate(270deg);
+  transform-origin: center center;
+}
+.card.vK .r3-2 {
+  transform: rotate(90deg);
+  transform-origin: center center;
+}
+.card.vK .r4-0 {
+  background: none;
+}
+.card.vK .r4-1 {
+  background: none;
+}
+.card.vK .r6-0 {
+  background: none;
+}
+.card.vK .r6-1 {
+  background: none;
+}
+.card.vK .filed .value::after {
+  content: 'K';
+  visibility: visible;
+}
+.card.vA .r0-0 {
+  background: none;
+}
+.card.vA .r0-1 {
+  background: none;
+}
+.card.vA .r1-0 {
+  background: none;
+}
+.card.vA .r2-0 {
+  background: none;
+}
+.card.vA .r2-1 {
+  background: none;
+}
+.card.vA .r3-0 {
+  width: 100px;
+  height: 100px;
+  margin-top: 48px;
+}
+.card.vA .r3-1 {
+  display: none;
+}
+.card.vA .r3-2 {
+  display: none;
+}
+.card.vA .r4-0 {
+  background: none;
+}
+.card.vA .r4-1 {
+  background: none;
+}
+.card.vA .r5-0 {
+  background: none;
+}
+.card.vA .r6-0 {
+  background: none;
+}
+.card.vA .r6-1 {
+  background: none;
+}
+.card.vA .r1 {
+  display: none;
+}
+.card.vA .r2 {
+  display: none;
+}
+.card.vA .r5 {
+  display: none;
+}
+.card.vA .filed .value::after {
+  content: 'A';
+  visibility: visible;
+}
+/*# sourceMappingURL=card.css.map */

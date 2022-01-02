@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 const START_COMMAND = '/';
 const [, , ...players] = process.argv;
 const Fool = require('./classes/Fool');
@@ -79,8 +77,8 @@ const errors = {
 
 const debug = [];
 
-// const game = new Fool(players);
-const game = Fool.load(require(`./tests/data/rounds/0/31`).before); // FROM TEST
+const game = new Fool(players);
+// const game = Fool.load(require(`./tests/data/rounds/0/31`).before); // FROM TEST
 
 function showView() {
 	console.log(game.log());

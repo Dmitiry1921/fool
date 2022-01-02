@@ -10,14 +10,6 @@ function random(min, max) {
 	return Math.floor(Math.random() * (max - min) ) + min;
 }
 
-/**
- * Возвращает случайный символ из переданного алфавита
- * @param alphabet {Array<String>}
- */
-function getRandomCharFromAlphabet(alphabet) {
-	return alphabet[random(0, alphabet.length - 1)];
-}
-
 
 /**
  * Старшинство карт "Дурак"
@@ -36,14 +28,8 @@ function firstCharUp(value) {
 	return value[0].toUpperCase() + value.slice(1);
 }
 
-function clone(data) {
-	return JSON.parse(JSON.stringify(data));
-}
-
 module.exports = {
-	clone,
 	random,
-	getRandomCharFromAlphabet,
 	firstCharUp,
 	cardSeniority: cardSeniority(),
 };
