@@ -4,7 +4,7 @@ const {v4: uuidv4} = require('uuid');
 const {random} = require('../../utils');
 const Fool = require('../../classes/Fool');
 const Message = require('../classes/Message');
-const {Command} = require('../../classes/PlayerState');
+const {Command, State} = require('../../classes/PlayerState');
 
 const sec = 1000;
 const TIME_WAIT = 5 *  sec;
@@ -20,7 +20,7 @@ class Room {
 		this.size = size;
 		this.status = 'Wait';
 		this.time = 0;
-		this.game = undefined; // Когда в комнате начнется игра тут появится объект игры.
+		this.game = undefined; // Когда в комнате начнется игра тут, появится объект игры.
 
 		process.nextTick(() => {
 			this.interval = setInterval(() => {
@@ -98,6 +98,7 @@ class Room {
 
 	getPublicGameInfo(client) {
 		const player = this.getPlayerByClient(client);
+		const isCardOnField = Boolean(this.game.field.getAllInOne().length) || player.state === State.Attack;
 		return {
 			room: this.getPublicInfo(),
 			field: {
@@ -110,7 +111,8 @@ class Room {
 			},
 			player,
 			command: {
-				available: Command.getAvailable(player.state),
+				available: isCardOnField ? Command.getAvailable(player.state) : [],
+				canDo: this.game.currentPlayer.id === player.id,
 			}
 		}
 	}

@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha --use_strict  \"./tests/**/test_*.js\" --exit -t 16000 --reporter progress --bail"
+    "test": "mocha --use_strict  \"./tests/**/test_*.js\" --exit -t 16000 --reporter progress --bail",
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",

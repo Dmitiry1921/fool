@@ -21,7 +21,7 @@ class GameServer {
 	 * @return {Room}
 	 */
 	getNewRoom() {
-		const room = Room.getNewRoom();
+		const room = Room.getNewRoom(3);
 		this.rooms.set(room.id, room);
 		return room;
 	}
